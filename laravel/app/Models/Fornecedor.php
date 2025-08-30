@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Fornecedor extends Model
+{
+    use HasFactory;
+    protected $table = 'fornecedores';
+    protected $guarded = [];
+
+    public function scopeSearch($query, $value)
+    {
+        $query->where('nome', 'like', "%{$value}%")
+            ->orWhere('telefone', 'like', "%{$value}%")
+            ->orWhere('porcentagem', 'like', "%{$value}%");
+    }
+}

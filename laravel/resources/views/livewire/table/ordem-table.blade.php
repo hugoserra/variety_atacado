@@ -1,0 +1,140 @@
+<div>
+    <section>
+        <div>
+            <!-- Start coding here -->
+            <div class="bg-white dark:bg-zinc-800 relative shadow-md sm:rounded-lg overflow-hidden">
+                <div class="flex items-center justify-between d p-4">
+                    <div class="flex">
+                        <div class="relative w-full">
+                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                                    fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <input wire:model.live.debounce.300ms="search" type="text"
+                                class="border rounded-lg block disabled:shadow-none dark:shadow-none appearance-none text-base sm:text-sm py-2 h-10 leading-[1.375rem] ps-3 pe-3 bg-white dark:bg-white/10 dark:disabled:bg-white/[7%] text-zinc-700 disabled:text-zinc-500 placeholder-zinc-400 disabled:placeholder-zinc-400/70 dark:text-zinc-300 dark:disabled:text-zinc-400 dark:placeholder-zinc-400 dark:disabled:placeholder-zinc-500 shadow-xs border-zinc-200 border-b-zinc-300/80 disabled:border-b-zinc-200 dark:border-white/10 dark:disabled:border-white/5 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 "
+                                label="Search" required="">
+                        </div>
+                    </div>
+                    <div class="flex space-x-3">
+                        <div class="flex space-x-3 items-center">
+                            <label class="w-40 text-sm font-medium text-gray-900 dark:text-gray-200">Status Ordem:</label>
+                            <select wire:model.live="status"
+                                class="appearance-none w-full ps-3 pe-10 block h-10 py-2 text-base sm:text-sm leading-none rounded-lg shadow-xs border bg-white dark:bg-white/10 dark:disabled:bg-white/[9%] text-zinc-700 dark:text-zinc-300 has-[option.placeholder:checked]:text-zinc-400 dark:has-[option.placeholder:checked]:text-zinc-400 dark:[&>option]:bg-zinc-700 dark:[&>option]:text-white disabled:shadow-none border border-zinc-200 border-b-zinc-300/80 dark:border-white/10">
+                                <option value="">Todos</option>
+                                <option value="pendente">Pendente</option>
+                                <option value="em andamento">Em Andamento</option>
+                                <option value="finalizada">Finalizada</option>
+                                <option value="interrompida">Interrompida</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 dark:text-gray-200 uppercase bg-gray-50 dark:bg-zinc-800 ">
+                            <tr>
+                                @include('livewire.includes.table-sortable-th',[
+                                    'name' => 'id',
+                                    'displayName' => 'ID'
+                                ])
+                                @include('livewire.includes.table-sortable-th',[
+                                    'name' => 'users.name',
+                                    'displayName' => 'Comprador'
+                                ])
+                                @include('livewire.includes.table-sortable-th',[
+                                    'name' => 'fornecedores.nome',
+                                    'displayName' => 'Fornecedor'
+                                ])
+                                @include('livewire.includes.table-sortable-th',[
+                                    'name' => 'tipo',
+                                    'displayName' => 'Tipo'
+                                ])
+                                @include('livewire.includes.table-sortable-th',[
+                                    'name' => 'status',
+                                    'displayName' => 'Status'
+                                ])
+                                @include('livewire.includes.table-sortable-th',[
+                                    'name' => 'custo_total',
+                                    'displayName' => 'Custo Total'
+                                ])
+                                @include('livewire.includes.table-sortable-th',[
+                                    'name' => 'created_at',
+                                    'displayName' => 'Data Criação'
+                                ])
+                                @include('livewire.includes.table-sortable-th',[
+                                    'name' => 'created_at',
+                                    'displayName' => 'Última Atualização'
+                                ])
+                                <th scope="col" class="px-4 py-3">
+                                    <span class="sr-only">Ações</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($ordens as $ordem)
+                                <tr wire:key="tr-ordem-{{ $ordem->id }}" class="border-b dark:border-gray-700 @if($ordem->status == 'pendente') bg-red-100 dark:bg-red-900 @endif"">
+                                    <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">#{{ $ordem->id }}</th>
+                                    <td class="px-4 py-3">{{ $ordem->user->name }}</td>
+                                    <td class="px-4 py-3">
+                                        @if(isset($ordem->fornecedor)) 
+                                            {{ $ordem->fornecedor->nome }} - {{ $ordem->fornecedor->porcentagem }}%
+                                        @else
+                                            --
+                                        @endif
+                                    </td>
+                                    <td class="px-4 py-3">{{ $ordem->tipo }}</td>
+                                    <td class="px-4 py-3">{{ $ordem->status }}</td>
+                                    <td class="px-4 py-3">{{ $ordem->custo_total }}</td>
+                                    <td class="px-4 py-3">{{ $ordem->created_at->format('d/m H:i') }}</td>
+                                    <td class="px-4 py-3">{{ $ordem->updated_at->format('d/m H:i') }}</td>
+                                    <td class="px-4 py-3 flex items-center justify-end">
+                                        <flux:button x-on:click="$dispatch('editar-ordem', {ordem_id: {{$ordem->id }}})" variant="primary" class="cursor-pointer mr-1">Editar</flux:button>
+                                        <flux:modal.trigger name="deletar-cliente-{{$ordem->id}}">
+                                            <flux:button variant="danger" class="cursor-pointer">Apagar</flux:button>
+                                        </flux:modal.trigger>
+
+                                        <flux:modal name="deletar-cliente-{{$ordem->id}}" class="w-full md:w-96">
+                                            <div class="space-y-6">
+                                                <div>
+                                                    <flux:heading size="lg">Apagar Ordem</flux:heading>
+                                                    <flux:text class="mt-2">Tem certeza que deseja apagar esta ordem?</flux:text>
+                                                </div>
+
+                                                <div class="flex">
+                                                    <flux:spacer />
+                                                    <flux:button variant="danger" wire:click="delete({{ $ordem->id }})" class="cursor-pointer">Apagar Ordem</flux:button>
+                                                </div>
+                                            </div>
+                                        </flux:modal>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="py-4 px-3">
+                    <div class="flex ">
+                        <div class="flex space-x-4 items-center mb-3">
+                            <label class="w-32 text-sm font-medium text-gray-900 dark:text-gray-200">Per Page</label>
+                            <select wire:model.live='perPage'
+                                class="appearance-none w-full ps-3 pe-10 block h-10 py-2 text-base sm:text-sm leading-none rounded-lg shadow-xs border bg-white dark:bg-white/10 dark:disabled:bg-white/[9%] text-zinc-700 dark:text-zinc-300 has-[option.placeholder:checked]:text-zinc-400 dark:has-[option.placeholder:checked]:text-zinc-400 dark:[&>option]:bg-zinc-700 dark:[&>option]:text-white disabled:shadow-none border border-zinc-200 border-b-zinc-300/80 dark:border-white/10">
+                                <option value="5">5</option>
+                                <option value="7">7</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                    </div>
+                    {{ $ordens->links() }}
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
