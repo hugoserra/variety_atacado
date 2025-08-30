@@ -11,11 +11,8 @@ return new class extends Migration
         Schema::create('pedidos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('cliente_id')->nullable()->constrained('clientes')->onDelete('set null');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('fornecedor_id')->nullable()->constrained('fornecedores')->onDelete('set null');
             $table->enum('status', ['pendente', 'em andamento', 'finalizado', 'cancelado'])->default('pendente');
-            $table->decimal('comissao_total', 10, 2);
-            $table->boolean('comissao_paga')->default(false);
-            $table->decimal('valor_total', 10, 2);
             $table->text('observacao')->nullable();
             $table->timestamps();
             $table->softDeletes();

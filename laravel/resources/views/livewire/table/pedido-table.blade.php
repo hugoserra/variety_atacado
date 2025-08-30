@@ -42,12 +42,8 @@
                                     'displayName' => 'ID'
                                 ])
                                 @include('livewire.includes.table-sortable-th',[
-                                    'name' => 'ordem_id',
-                                    'displayName' => 'Ordem'
-                                ])
-                                @include('livewire.includes.table-sortable-th',[
-                                    'name' => 'users.name',
-                                    'displayName' => 'Vendedor'
+                                    'name' => 'fornecedor.nome',
+                                    'displayName' => 'Fornecedor'
                                 ])
                                 @include('livewire.includes.table-sortable-th',[
                                     'name' => 'cliente.nome',
@@ -56,14 +52,6 @@
                                 @include('livewire.includes.table-sortable-th',[
                                     'name' => 'status',
                                     'displayName' => 'Status'
-                                ])
-                                @include('livewire.includes.table-sortable-th',[
-                                    'name' => 'valor_total',
-                                    'displayName' => 'Valor Pedido'
-                                ])
-                                @include('livewire.includes.table-sortable-th',[
-                                    'name' => 'comissao_total',
-                                    'displayName' => 'Comissão Vendedor'
                                 ])
                                 @include('livewire.includes.table-sortable-th',[
                                     'name' => 'created_at',
@@ -82,27 +70,9 @@
                             @foreach ($pedidos as $pedido)
                                 <tr wire:key="tr-pedido-{{ $pedido->id }}" class="border-b dark:border-gray-700 @if($pedido->status == 'pendente') bg-red-100 dark:bg-red-900 @endif">
                                     <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">#{{$pedido->id}}</th>
-                                    <td class="px-4 py-3">{{ isset($pedido->ordem) ? $pedido->ordem->id : '--' }}</td>
-                                    <td class="px-4 py-3">{{ $pedido->user->name }}</td>
-                                    <td class="px-4 py-3">
-                                        @if($pedido->cliente)
-                                            <a target="_blank" href="https://web.whatsapp.com/send?autoload=1&app_absent=0&phone={{$pedido->cliente->telefone}}&text">
-                                                {{$pedido->cliente->nome}} - {{$pedido->cliente->telefone}}
-                                            </a>
-                                            <a target="_blank" href="https://www.google.com.br/maps/place/{{$pedido->cliente->endereco}}">
-                                                - {{$pedido->cliente->endereco}}
-                                            </a>
-                                        @else
-                                            --
-                                        @endif
-                                    </td>
+                                    <td class="px-4 py-3">{{ $pedido->fornecedor->name }}</td>
+                                    <td class="px-4 py-3">{{ $pedido->cliente->name }}</td>
                                     <td class="px-4 py-3">{{ $pedido->status }}</td>
-                                    <td class="px-4 py-3">{{ $pedido->valor_total }}</td>
-                                    <td class="px-4 py-3">
-                                        <div class="p-2 rounded @if($pedido->ordem_id && !$pedido->comissao_paga && $pedido->comissao_total != 0) bg-red-100 @endif">
-                                            {{ $pedido->comissao_total }}
-                                        </div>
-                                    </td>
                                     <td class="px-4 py-3">{{ $pedido->created_at->format('d/m H:i') }}</td>
                                     <td class="px-4 py-3">{{ $pedido->updated_at->format('d/m H:i') }}</td>
                                     <td class="px-4 py-3 flex items-center justify-end">

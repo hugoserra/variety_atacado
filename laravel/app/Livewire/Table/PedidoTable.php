@@ -62,11 +62,10 @@ class PedidoTable extends Component
         return view('livewire.table.pedido-table',
         [
             'pedidos' => Pedido::search($this->search)
-                ->where('user_id', Auth::user()['id'])
                 ->when($this->type !== '', function ($query) {
                     $query->where('status', $this->type);
                 })
-                ->when($this->sortBy != 'cliente.nome' && $this->sortBy != 'users.name', function ($query) use ($sortBy, $sortDir) {
+                ->when($this->sortBy != 'cliente.nome' && $this->sortBy != 'fornecedor.nome', function ($query) use ($sortBy, $sortDir) {
                     $query->orderBy($sortBy, $sortDir);
                 })
                 ->when($this->sortBy == 'cliente.nome', function ($query) use ($sortDir) {
@@ -74,11 +73,11 @@ class PedidoTable extends Component
                         ->select('pedidos.*') // garante que apenas os campos de pedidos sejam selecionados
                         ->orderBy('clientes.nome', $sortDir);
                 })
-                ->when($this->sortBy == 'users.name', function ($query) use ($sortDir) {
-                    $query->join('users', 'users.id', '=', 'pedidos.user_id')
-                        ->select('pedidos.*') // garante que apenas os campos de pedidos sejam selecionados
-                        ->orderBy('users.name', $sortDir);
-                })
+                    ->when($this->sortBy == 'fornecedor.nome', function ($query) use ($sortDir) {
+                        $query->join('fornecedores', 'fornecedores.id', '=', 'pedidos.fornecedor_id')
+                            ->select('pedidos.*') // garante que apenas os campos de pedidos sejam selecionados
+                            ->orderBy('fornecedores.nome', $sortDir);
+                    })
                 ->paginate($this->perPage)
         ]);
     }

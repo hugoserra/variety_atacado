@@ -51,10 +51,6 @@
         </div>
 
         <div class="flex justify-end gap-x-4 items-center">
-            <div>
-                <flux:checkbox label="Recalcular Comissão Pedido" wire:model="recalcular_comissao_total" />
-            </div>
-
             <flux:button type="submit" variant="primary" wire:click="editar" class="cursor-pointer">Salvar Pedido</flux:button>
         </div>
     </div>

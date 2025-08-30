@@ -84,7 +84,7 @@ class ProdutoTable extends Component
     public function setObservacaoProdutoPedido($produto_id, $obs)
     {
         $produto = Produto::findOrFail($produto_id);
-        $produto->pedidos()->where('id', $this->pedido_id)->first()->pivot->update(['observacao' => $obs]);
+        $produto->pedidos()->where('pedidos.id', $this->pedido_id)->first()->pivot->update(['observacao' => $obs]);
     }
 
     #[On('produto-saved')]

@@ -39,7 +39,7 @@
                                     'name' => 'nome',
                                     'displayName' => 'Nome'
                                 ])
-                                @if($pedido_id || $ordem)
+                                @if($pedido_id)
                                     @include('livewire.includes.table-sortable-th',[
                                         'name' => 'observacao',
                                         'displayName' => 'Observações'
@@ -49,46 +49,22 @@
                                     'name' => 'tipo',
                                     'displayName' => 'Tipo'
                                 ])
-                                @if(!$pedido_id)
-                                    @include('livewire.includes.table-sortable-th',[
-                                        'name' => 'preco_produto_dolar',
-                                        'displayName' => 'Preço Produto Dólar'
-                                    ])
-                                    @include('livewire.includes.table-sortable-th',[
-                                        'name' => 'preco_produto',
-                                        'displayName' => 'Preço Produto'
-                                    ])
-                                    @include('livewire.includes.table-sortable-th',[
-                                        'name' => 'preco_custo',
-                                        'displayName' => 'Preço de Custo'
-                                    ])
-                                @endif
-                                @include('livewire.includes.table-sortable-th',[
-                                    'name' => 'preco_venda_minimo',
-                                    'displayName' => 'Preço Mínimo de Venda'
-                                ])
                                 @if($pedido_id)
-                                    @include('livewire.includes.table-sortable-th',[
-                                        'name' => 'preco_final',
-                                        'displayName' => 'Preço Final'
-                                    ])
-                                    @include('livewire.includes.table-sortable-th',[
-                                        'name' => 'comissao_vendedor',
-                                        'displayName' => 'Comissão Vendedor'
-                                    ])
                                     @include('livewire.includes.table-sortable-th',[
                                         'name' => 'quantidade_produto',
                                         'displayName' => 'Qtd Pedido'
                                     ])
-                                @endif
-                                {{-- @include('livewire.includes.table-sortable-th',[
-                                    'name' => 'quantidade_estoque',
-                                    'displayName' => 'Qtd Estoque'
-                                ]) --}}
-                                @if($ordem)
                                     @include('livewire.includes.table-sortable-th',[
-                                        'name' => 'quantidade_produto',
-                                        'displayName' => 'Qtd Ordem'
+                                        'name' => 'preco_paraguai',
+                                        'displayName' => 'Preco Paraguai'
+                                    ])
+                                    @include('livewire.includes.table-sortable-th',[
+                                        'name' => 'preco_chegada',
+                                        'displayName' => 'Preco de Chegada'
+                                    ])
+                                    @include('livewire.includes.table-sortable-th',[
+                                        'name' => 'preco_venda',
+                                        'displayName' => 'Preco de Venda'
                                     ])
                                 @endif
                                 <th scope="col" class="px-4 py-3">
@@ -107,25 +83,14 @@
                                             <input type="text" class="p-2 text-gray-900 dark:text-white" placeholder="Observação" x-on:input.debounce.800ms="$wire.setObservacaoProdutoPedido({{$produto->id}}, $el.value)" value="{{$produto->getObservacaoPedido($pedido_id)}}">
                                         </td>
                                     @endif
-                                    @if($ordem)
-                                        <td class="px-4 py-3">{{ $produto->getObservacaoOrdem($ordem->id) }}</td>
-                                    @endif
-                                    <td class="px-4 py-3">{{ $produto->tipo }}</td>
-                                    @if(!$pedido_id)
-                                        <td class="px-4 py-3">{{ $produto->preco_produto_dolar }}</td>
-                                        <td class="px-4 py-3">{{ $produto->preco_produto }}</td>
-                                        <td class="px-4 py-3">{{ $produto->preco_custo }}</td>
-                                    @endif
-                                    <td class="px-4 py-3">{{ $produto->preco_venda_minimo }}</td>
+                                    <td class="px-4 py-3">{{ $produto->tipo_frete }}</td>
                                     @if($pedido_id)
-                                        <td class="px-4 py-3">{{ $produto->getPrecoFinalPorPedido($pedido_id) }}</td>
-                                        <td class="px-4 py-3">{{ $produto->getComissaoVendedorPorPedido($pedido_id, true) }}</td>
                                         <td class="px-4 py-3">{{ $produto->getQuantidadePorPedido($pedido_id) }}</td>
+                                        <td class="px-4 py-3">--</td>
+                                        <td class="px-4 py-3">--</td>
+                                        <td class="px-4 py-3">--</td>
                                     @endif
-                                    {{-- <td class="px-4 py-3">{{ $produto->quantidade_estoque }}</td> --}}
-                                    @if($ordem)
-                                        <td class="px-4 py-3">{{ $produto->getQuantidadePorOrdem($ordem->id) }}</td>
-                                    @endif
+                                   
                                     <td class="px-4 py-3 flex items-center justify-end @if($ordem?->pedidos->count()) cursor-not-allowed opacity-50 @endif">
                                         <div class="flex @if($ordem?->pedidos->count()) pointer-events-none @endif">
                                             @if($ordem)

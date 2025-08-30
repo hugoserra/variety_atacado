@@ -12,7 +12,6 @@ class ClienteMaker extends Component
     public $nome;
     public $telefone;
     public $endereco;
-    public $user_id;
 
     #[On('novo-cliente')]
     public function maker_show()
@@ -22,9 +21,7 @@ class ClienteMaker extends Component
 
     public function criar()
     {
-        $this->user_id = Auth::user()['id'];
         $validated = $this->validate([
-            'user_id' => 'required',
             'nome' => 'required|min:3',
             'telefone' => 'required|min:3',
             'endereco' => 'required|min:3',

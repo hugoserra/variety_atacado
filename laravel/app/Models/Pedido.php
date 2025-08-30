@@ -17,19 +17,16 @@ class Pedido extends Model
     use SoftDeletes;
 
     protected $table = 'pedidos';
-    protected $fillable = ['ordem_id', 'cliente_id', 'user_id', 'produto_id', 'status', 'comissao_vendedor', 'comissao_paga', 'produtos', 'valor_total', 'quantidade_produto', 'status_estoque', 'observacao'];
+    protected $fillable = ['produto_id', 'status', 'produtos', 'quantidade_produto', 'observacao'];
 
     protected static function boot()
     {
         parent::boot();
         static::creating(function ($pedido) 
         {
-            $pedido->user_id = Auth::user()['id'];
         });
         static::saving(function ($pedido) 
         {
-            $pedido->calcularValorTotal();
-            $pedido->calcularCommissaoTotal();
         });
         static::deleting(function ($pedido) {
             if($pedido->status != "finalizado")
@@ -42,9 +39,9 @@ class Pedido extends Model
         return $this->belongsTo(Cliente::class);
     }
 
-    public function user(): BelongsTo
+    public function fornecedor(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Fornecedor::class);
     }
 
     public function produtos(): BelongsToMany
@@ -52,57 +49,24 @@ class Pedido extends Model
         return $this->belongsToMany(Produto::class)
             ->using(PedidoProduto::class)
             ->withPivot('quantidade_produto')
-            ->withPivot('comissao_vendedor')
-            ->withPivot('status_estoque')
+            ->withPivot('preco_paraguai')
+            ->withPivot('preco_chegada')
+            ->withPivot('preco_venda')
+            ->withPivot('observacao')
             ->withTimestamps();
     }
 
     public function scopeSearch($query, $value)
     {
-        $query->where('valor_total', 'like', "%{$value}%")
-            ->orWhere('status', 'like', "%{$value}%")
-            ->orWhere('comissao_total', 'like', "%{$value}%")
-            ->orWhereHas('user', function ($query) use ($value) {
-                $query->where('name', 'like', "%$value%");
-                $query->orWhere('email', 'like', "%$value%");
+        $query->where('status', 'like', "%{$value}%")
+            ->orWhereHas('fornecedor', function ($query) use ($value) {
+                $query->where('nome', 'like', "%$value%");
+                $query->orWhere('telefone', 'like', "%$value%");
             })
             ->orWhereHas('cliente', function ($query) use ($value) {
                 $query->where('nome', 'like', "%$value%");
                 $query->orWhere('endereco', 'like', "%$value%");
                 $query->orWhere('telefone', 'like', "%$value%");
             });
-    }
-
-    public function calcularLucroLiquido()
-    {
-        $this->lucro_liquido = 0;
-        foreach ($this->produtos as $produto) {
-            $this->lucro_liquido += ($produto->preco_venda_minimo - $produto->preco_custo) * $produto->pivot->quantidade_produto;
-        }
-        return round($this->lucro_liquido, 2);
-    }
-
-    public function calcularValorTotal()
-    {
-        $this->valor_total = 0;
-        foreach ($this->produtos as $produto) 
-        {
-            $this->valor_total += $produto->getPrecoFinalPorPedido($this->id) * $produto->pivot->quantidade_produto;
-        }
-        $this->valor_total = round($this->valor_total, 2);
-    }
-
-    public function calcularCommissaoTotal($force = false)
-    {
-        if(!isset($this->created_at) || $this->created_at->gt(Carbon::now()->subMinutes(60)) || $force)
-        {
-            $this->comissao_total = 0;
-            
-            foreach ($this->produtos as $produto) 
-            {
-                $this->comissao_total += $produto->getComissaoVendedorPorPedido($this->id, true);
-            }
-            $this->comissao_total = round($this->comissao_total, 2);
-        }
     }
 }

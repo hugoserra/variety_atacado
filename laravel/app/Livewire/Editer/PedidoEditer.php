@@ -24,8 +24,6 @@ class PedidoEditer extends Component
     public $produto_id;
     public $quantidade_produto_pedido;
 
-    public $recalcular_comissao_total = false;
-
     public function mount()
     {
         $this->clientes = Cliente::get();
@@ -64,12 +62,6 @@ class PedidoEditer extends Component
         $pedido->update($data);
 
         $this->dispatch('updated-popup', 'Pedido Salvo!');
-
-        if($this->recalcular_comissao_total)
-        {
-            $pedido->calcularCommissaoTotal(true);
-            $pedido->save();
-        }
 
         $this->dispatch('pedido-saved');
         $this->modal('editar-pedido')->close();

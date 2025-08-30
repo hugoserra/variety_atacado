@@ -54,7 +54,6 @@ class ClienteTable extends Component
         return view('livewire.table.cliente-table',
         [
             'clientes' => Cliente::search($this->search)
-                ->where('user_id', Auth::user()['id'])
                 ->orderBy($this->sortBy, $this->sortDir)
                 ->paginate($this->perPage)
         ]);
