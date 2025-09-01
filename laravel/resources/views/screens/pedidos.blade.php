@@ -5,6 +5,7 @@
         <livewire:editer.pedido-editer />
         <livewire:table.pedido-table />
         <livewire:maker.cliente-maker />
+        <livewire:maker.fornecedor-maker />
         <livewire:maker.produto-maker />
         <livewire:editer.produto-editer />
     </div>

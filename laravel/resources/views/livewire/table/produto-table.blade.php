@@ -91,26 +91,8 @@
                                         <td class="px-4 py-3">--</td>
                                     @endif
                                    
-                                    <td class="px-4 py-3 flex items-center justify-end @if($ordem?->pedidos->count()) cursor-not-allowed opacity-50 @endif">
-                                        <div class="flex @if($ordem?->pedidos->count()) pointer-events-none @endif">
-                                            @if($ordem)
-                                                <flux:modal.trigger name="desvincular-orderm-produto-{{$produto->id}}">
-                                                    <flux:button  class="cursor-pointer mr-1">Desvincular</flux:button>
-                                                </flux:modal.trigger>
-                                                <flux:modal name="desvincular-orderm-produto-{{$produto->id}}" class="w-full md:w-96">
-                                                    <div class="space-y-6">
-                                                        <div>
-                                                            <flux:heading size="lg">Desvincular Produto</flux:heading>
-                                                            <flux:text class="mt-2">Tem certeza que deseja desvincular este produto da ordem?</flux:text>
-                                                        </div>
-    
-                                                        <div class="flex">
-                                                            <flux:spacer />
-                                                            <flux:button variant="danger" wire:click="desvincularOrdem({{$produto->id}})" class="cursor-pointer">Desvincular Produto</flux:button>
-                                                        </div>
-                                                    </div>
-                                                </flux:modal>
-                                            @endif
+                                    <td class="px-4 py-3 flex items-center justify-end">
+                                        <div class="flex">
                                             @if($pedido_id)
                                                 <flux:modal.trigger name="desvincular-pedido-produto-{{$produto->id}}">
                                                     <flux:button  class="cursor-pointer mr-1">Desvincular</flux:button>
@@ -130,7 +112,7 @@
                                                 </flux:modal>
                                             @endif
                                             <flux:button x-on:click="$dispatch('editar-produto', {produto_id: {{$produto->id }}})" variant="primary" class="cursor-pointer mr-1">Editar</flux:button>
-                                            @if (!$ordem && !$pedido_id)
+                                            @if (!$pedido_id)
                                                 <flux:modal.trigger name="deletar-produto-{{$produto->id}}">
                                                     <flux:button variant="danger" class="cursor-pointer">Apagar</flux:button>
                                                 </flux:modal.trigger>

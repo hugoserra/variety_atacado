@@ -27,15 +27,7 @@ class ProdutoTable extends Component
 
     #[Url()]
     public $perPage = 20;
-
-    public $ordem;
     public $pedido_id;
-
-    #[On('set-produto-ordem-id')]
-    public function set_produt_ordem_id($ordem_id)
-    {
-        $this->ordem = Ordem::find($ordem_id);
-    }
 
     #[On('set-produto-pedido-id')]
     public function set_produt_pedido_id($pedido_id)
@@ -65,15 +57,6 @@ class ProdutoTable extends Component
         $this->sortDir = 'DESC';
     }
 
-    public function desvincularOrdem($produto_id)
-    {
-        if ($this->ordem->pedidos->count()) return;
-
-        $produto = Produto::findOrFail($produto_id);
-        $produto->ordens()->detach($this->ordem->id);
-        $this->dispatch('updated-popup', 'Produto Desvinculado!');
-    }
-
     public function desvincularPedido($produto_id)
     {
         $produto = Produto::findOrFail($produto_id);
@@ -90,23 +73,19 @@ class ProdutoTable extends Component
     #[On('produto-saved')]
     public function render()
     {
-        $ordem_id = $this->ordem?->id;
         $pedido_id = $this->pedido_id;
         $produtos = Produto::search($this->search)
                             ->when($this->tipo_frete !== '', function ($query) {
                                 $query->where('tipo_frete', $this->tipo_frete);
-                            })
-                            ->when($ordem_id, function ($query) use ($ordem_id) {
-                                $query->whereHas('ordens', function ($query) use ($ordem_id) {
-                                    $query->where('ordem_id', $ordem_id);
-                                });
                             })
                             ->when($pedido_id, function ($query) use ($pedido_id) {
                                 $query->whereHas('pedidos', function ($query) use ($pedido_id) {
                                     $query->where('pedido_id', $pedido_id);
                                 });
                             })
-                            ->orderBy($this->sortBy, $this->sortDir)
+                            ->when(request()->routeIs('produtos'), function ($query) use ($pedido_id) {
+                                $query->orderBy($this->sortBy, $this->sortDir);
+                            })
                             ->paginate($this->perPage);
         return view('livewire.table.produto-table',
         [

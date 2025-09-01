@@ -65,19 +65,19 @@ class PedidoTable extends Component
                 ->when($this->type !== '', function ($query) {
                     $query->where('status', $this->type);
                 })
-                ->when($this->sortBy != 'cliente.nome' && $this->sortBy != 'fornecedor.nome', function ($query) use ($sortBy, $sortDir) {
+                ->when($this->sortBy != 'clientes.nome' && $this->sortBy != 'fornecedores.nome', function ($query) use ($sortBy, $sortDir) {
                     $query->orderBy($sortBy, $sortDir);
                 })
-                ->when($this->sortBy == 'cliente.nome', function ($query) use ($sortDir) {
+                ->when($this->sortBy == 'clientes.nome', function ($query) use ($sortDir) {
                     $query->join('clientes', 'clientes.id', '=', 'pedidos.cliente_id')
                         ->select('pedidos.*') // garante que apenas os campos de pedidos sejam selecionados
                         ->orderBy('clientes.nome', $sortDir);
                 })
-                    ->when($this->sortBy == 'fornecedor.nome', function ($query) use ($sortDir) {
-                        $query->join('fornecedores', 'fornecedores.id', '=', 'pedidos.fornecedor_id')
-                            ->select('pedidos.*') // garante que apenas os campos de pedidos sejam selecionados
-                            ->orderBy('fornecedores.nome', $sortDir);
-                    })
+                ->when($this->sortBy == 'fornecedores.nome', function ($query) use ($sortDir) {
+                    $query->join('fornecedores', 'fornecedores.id', '=', 'pedidos.fornecedor_id')
+                        ->select('pedidos.*') // garante que apenas os campos de pedidos sejam selecionados
+                        ->orderBy('fornecedores.nome', $sortDir);
+                })
                 ->paginate($this->perPage)
         ]);
     }

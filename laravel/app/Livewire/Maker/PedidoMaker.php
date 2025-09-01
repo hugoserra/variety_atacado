@@ -3,6 +3,7 @@
 namespace App\Livewire\Maker;
 
 use App\Models\Cliente;
+use App\Models\Fornecedor;
 use App\Models\Pedido;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
@@ -13,15 +14,19 @@ class PedidoMaker extends Component
 {
     #[Validate('nullable|numeric')]
     public $cliente_id;
+    #[Validate('nullable|numeric')]
+    public $fornecedor_id;
     #[Validate('required')]
     public $status = 'pendente';
 
     public $clientes = [];
+    public $fornecedores = [];
     public $ordens;
 
     public function mount()
     {
         $this->clientes = Cliente::get();
+        $this->fornecedores = Fornecedor::get();
     }
 
     public function updated($name, $value)
@@ -42,9 +47,9 @@ class PedidoMaker extends Component
 
         $data = [
             'cliente_id' => $this->cliente_id,
+            'fornecedor_id' => $this->fornecedor_id,
             'status' => $this->status,
         ];
-
         $pedido = Pedido::create($data);
 
         $this->modal('novo-pedido')->close();
@@ -56,8 +61,15 @@ class PedidoMaker extends Component
     #[On('cliente-saved')]
     public function cliente_saved()
     {
-        $this->clientes = Auth::user()->clientes;
+        $this->clientes = Cliente::get();
         $this->cliente_id = $this->clientes->last()['id'];
+    }
+
+    #[On('fornecedor-saved')]
+    public function fornecedor_saved()
+    {
+        $this->fornecedores = Cliente::get();
+        $this->fornecedor_id = $this->fornecedores->last()['id'];
     }
     
     public function render()

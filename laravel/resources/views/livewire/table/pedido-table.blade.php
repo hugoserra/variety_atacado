@@ -42,11 +42,11 @@
                                     'displayName' => 'ID'
                                 ])
                                 @include('livewire.includes.table-sortable-th',[
-                                    'name' => 'fornecedor.nome',
+                                    'name' => 'fornecedores.nome',
                                     'displayName' => 'Fornecedor'
                                 ])
                                 @include('livewire.includes.table-sortable-th',[
-                                    'name' => 'cliente.nome',
+                                    'name' => 'clientes.nome',
                                     'displayName' => 'Cliente'
                                 ])
                                 @include('livewire.includes.table-sortable-th',[
@@ -70,7 +70,7 @@
                             @foreach ($pedidos as $pedido)
                                 <tr wire:key="tr-pedido-{{ $pedido->id }}" class="border-b dark:border-gray-700 @if($pedido->status == 'pendente') bg-red-100 dark:bg-red-900 @endif">
                                     <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">#{{$pedido->id}}</th>
-                                    <td class="px-4 py-3">{{ $pedido->fornecedor->name }}</td>
+                                    <td class="px-4 py-3">{{ $pedido->fornecedor->nome }}</td>
                                     <td class="px-4 py-3">{{ $pedido->cliente->name }}</td>
                                     <td class="px-4 py-3">{{ $pedido->status }}</td>
                                     <td class="px-4 py-3">{{ $pedido->created_at->format('d/m H:i') }}</td>

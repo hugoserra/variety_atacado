@@ -17,7 +17,7 @@ class Pedido extends Model
     use SoftDeletes;
 
     protected $table = 'pedidos';
-    protected $fillable = ['produto_id', 'status', 'produtos', 'quantidade_produto', 'observacao'];
+    protected $fillable = ['produto_id', 'status', 'produtos', 'quantidade_produto', 'observacao', 'cliente_id', 'fornecedor_id'];
 
     protected static function boot()
     {
