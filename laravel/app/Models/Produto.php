@@ -44,17 +44,4 @@ class Produto extends Model
     {
         $query->where('nome', 'like', "%{$value}%");
     }
-
-    public function getQuantidadePorPedido($pedido_id)
-    {
-        // $ordem_id = is_array($ordem_id) ? $ordem_id['ordem_id'] : $ordem_id;// se depois de muito tempo achar essa linha, pode apagar
-        $pedido = $this->pedidos->where('id', $pedido_id)->first();
-        return $pedido ? $pedido->pivot->quantidade_produto : 0;
-    }
-
-    public function getObservacaoPedido($pedido_id)
-    {
-        if($pedido_id)
-        return $this->pedidos->where('id', $pedido_id)->first()->pivot->observacao;
-    }
 }

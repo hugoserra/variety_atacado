@@ -80,15 +80,15 @@
                                     </td>
                                     @if($pedido_id)
                                         <td wire:key="{{time()}}">
-                                            <input type="text" class="p-2 text-gray-900 dark:text-white" placeholder="Observação" x-on:blur="$wire.setObservacaoProdutoPedido({{$produto->id}}, $el.value)" value="{{$produto->getObservacaoPedido($pedido_id)}}">
+                                            <input type="text" class="p-2 text-gray-900 dark:text-white" placeholder="Observação" x-on:blur="$wire.setObservacaoProdutoPedido({{$produto->id}}, $el.value)" value="{{$produto->pivot->observacao}}">
                                         </td>
                                     @endif
                                     <td class="px-4 py-3">{{ $produto->tipo_frete }}</td>
                                     @if($pedido_id)
-                                        <td class="px-4 py-3">{{ $produto->getQuantidadePorPedido($pedido_id) }}</td>
-                                        <td class="px-4 py-3">--</td>
-                                        <td class="px-4 py-3">--</td>
-                                        <td class="px-4 py-3">--</td>
+                                        <td class="px-4 py-3">{{ $produto->pivot->quantidade_produto }}</td>
+                                        <td class="px-4 py-3">{{ $produto->pivot->preco_paraguai }}</td>
+                                        <td class="px-4 py-3">{{ $produto->pivot->preco_chegada }}</td>
+                                        <td class="px-4 py-3">{{ $produto->pivot->preco_venda }}</td>
                                     @endif
                                    
                                     <td class="px-4 py-3 flex items-center justify-end">

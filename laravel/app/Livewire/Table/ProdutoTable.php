@@ -3,6 +3,7 @@
 namespace App\Livewire\Table;
 
 use App\Models\Ordem;
+use App\Models\Pedido;
 use App\Models\Produto;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
@@ -73,20 +74,28 @@ class ProdutoTable extends Component
     #[On('produto-saved')]
     public function render()
     {
-        $pedido_id = $this->pedido_id;
-        $produtos = Produto::search($this->search)
-                            ->when($this->tipo_frete !== '', function ($query) {
-                                $query->where('tipo_frete', $this->tipo_frete);
-                            })
-                            ->when($pedido_id, function ($query) use ($pedido_id) {
-                                $query->whereHas('pedidos', function ($query) use ($pedido_id) {
-                                    $query->where('pedido_id', $pedido_id);
-                                });
-                            })
-                            ->when(request()->routeIs('produtos'), function ($query) use ($pedido_id) {
-                                $query->orderBy($this->sortBy, $this->sortDir);
-                            })
-                            ->paginate($this->perPage);
+        if($this->pedido_id)
+        {
+            $produtos = Pedido::find($this->pedido_id)->produtos()
+                                ->search($this->search)
+                                ->when($this->tipo_frete !== '', function ($query) {
+                                    $query->where('tipo_frete', $this->tipo_frete);
+                                })
+                                ->orderBy($this->sortBy, $this->sortDir)
+                                ->paginate($this->perPage);
+        }
+        else
+        {
+            $produtos = Produto::search($this->search)
+                                ->when($this->tipo_frete !== '', function ($query) {
+                                    $query->where('tipo_frete', $this->tipo_frete);
+                                })
+                                ->when(request()->routeIs('produtos'), function ($query) {
+                                    $query->orderBy($this->sortBy, $this->sortDir);
+                                })
+                                ->paginate($this->perPage);
+        }
+
         return view('livewire.table.produto-table',
         [
             'produtos' => $produtos,
