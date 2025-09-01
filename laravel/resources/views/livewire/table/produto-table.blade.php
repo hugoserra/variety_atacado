@@ -86,9 +86,9 @@
                                     <td class="px-4 py-3">{{ $produto->tipo_frete }}</td>
                                     @if($pedido_id)
                                         <td class="px-4 py-3">{{ $produto->pivot->quantidade_produto }}</td>
-                                        <td class="px-4 py-3">{{ $produto->pivot->preco_paraguai }}</td>
-                                        <td class="px-4 py-3">{{ $produto->pivot->preco_chegada }}</td>
-                                        <td class="px-4 py-3">{{ $produto->pivot->preco_venda }}</td>
+                                        <td class="px-4 py-3">R$ {{ $produto->pivot->preco_paraguai }}</td>
+                                        <td class="px-4 py-3">R$ {{ $produto->pivot->preco_chegada }}</td>
+                                        <td class="px-4 py-3">R$ {{ $produto->pivot->preco_venda }}</td>
                                     @endif
                                    
                                     <td class="px-4 py-3 flex items-center justify-end">

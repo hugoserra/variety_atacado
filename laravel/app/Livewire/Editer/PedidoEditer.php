@@ -7,6 +7,7 @@ use App\Models\Fornecedor;
 use App\Models\Pedido;
 use App\Models\PedidoProduto;
 use App\Models\Produto;
+use App\Services\DolarAPI;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -17,7 +18,7 @@ class PedidoEditer extends Component
     public $cliente_id = null;
     public $fornecedor_id = null;
     public $status = 'pendente';
-    public $comissao_paga = null;
+    public $cotacao_dolar = null;
     public $observacao = null;
 
     public $clientes = [];
@@ -61,6 +62,7 @@ class PedidoEditer extends Component
             'cliente_id' => $this->cliente_id,
             'fornecedor_id' => $this->fornecedor_id,
             'status' => $this->status,
+            'cotacao_dolar' => $this->cotacao_dolar,
             'observacao' => $this->observacao,
         ];
 
@@ -86,7 +88,7 @@ class PedidoEditer extends Component
         $produto = Produto::findOrFail($this->produto_id);
         $produto->pedidos()->attach($this->id, [
             'quantidade_produto' => $this->quantidade_produto_pedido,
-            'preco_paraguai' => $this->preco_paraguai_pedido,
+            'preco_paraguai' => $this->preco_paraguai_pedido * $this->cotacao_dolar,
         ]);
         Pedido::find($this->id)->save();
         $this->dispatch('produto-saved');
@@ -108,6 +110,31 @@ class PedidoEditer extends Component
     {
         $this->fornecedores = Fornecedor::get();
         $this->fornecedor_id = $this->fornecedores->last()['id'];
+    }
+
+    public function salvar_cotacao_dolar()
+    {
+        $pedido = Pedido::findOrFail($this->id);
+
+        if(!$this->cotacao_dolar)
+            $this->cotacao_dolar = DolarAPI::getCotacaoDolarMegaEletronicos();
+
+        $pedido->cotacao_dolar = $this->cotacao_dolar;
+
+        $pedido->save();
+        $this->dispatch('updated-popup', 'Cotação do Dólar Salva!');
+        $this->dispatch('pedido-saved');
+    }
+
+    public function salvar_observacao()
+    {
+        $pedido = Pedido::findOrFail($this->id);
+
+        $pedido->observacao = $this->observacao;
+
+        $pedido->save();
+        $this->dispatch('updated-popup', 'Observação Salva!');
+        $this->dispatch('pedido-saved');
     }
 
     public function render()

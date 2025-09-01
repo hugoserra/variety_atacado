@@ -43,8 +43,10 @@
                 <flux:select.option value="cancelado">Cancelado</flux:select.option>
             </flux:select>
 
+            <flux:input wire:model="cotacao_dolar" label="Cot. Dólar" x-on:blur="$wire.salvar_cotacao_dolar()"/>
+
             <div class="w-[40%]">
-                <flux:textarea wire:model="observacao" label="Observações Pedido" placeholder="Observações do pedido.." rows="2"/>
+                <flux:textarea wire:model="observacao" label="Observações Pedido" placeholder="Observações do pedido.." rows="2" x-on:blur="$wire.salvar_observacao()"/>
             </div>
         </div>
 
@@ -57,7 +59,7 @@
                         <flux:button x-on:click="$dispatch('novo-produto');" class="cursor-pointer mt-[25px]">+</flux:button>
                     </div>
                     <flux:input wire:model="quantidade_produto_pedido" type="number" label="Quantidade Pedido" />
-                    <flux:input wire:model="preco_paraguai_pedido" type="number" label="Preço Paraguai" />
+                    <flux:input wire:model="preco_paraguai_pedido" type="number" label="Preço Paraguai (Dólar)" />
                     <flux:button wire:click="vincular_produto_pedido" variant="primary" class="cursor-pointer mt-[25px]">Vincular ao Pedido</flux:button>
                 </div>
                 <flux:separator class="mb-6"/>

@@ -64,3 +64,34 @@ select:focus[data-flux-control] {
 /* \[:where(&)\]:size-4 {
     @apply size-4;
 } */
+
+/* Estiliza a barra de rolagem no Chrome, Edge e Safari */
+::-webkit-scrollbar {
+    width: 4px;
+    /* Largura da barra de rolagem */
+    height: 4px;
+    /* Altura da barra de rolagem horizontal */
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    /* Fundo da trilha da barra de rolagem */
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(100, 100, 100, 0.5);
+    /* Cor da barra de rolagem */
+    border-radius: 2px;
+    /* Arredondamento */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(100, 100, 100, 0.7);
+    /* Cor ao passar o mouse */
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(100, 100, 100, 0.5) transparent;
+}

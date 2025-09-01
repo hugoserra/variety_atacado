@@ -5,6 +5,7 @@ namespace App\Livewire\Maker;
 use App\Models\Cliente;
 use App\Models\Fornecedor;
 use App\Models\Pedido;
+use App\Services\DolarAPI;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -17,6 +18,7 @@ class PedidoMaker extends Component
     public $fornecedor_id;
     #[Validate('required')]
     public $status = 'pendente';
+    public $cotacao_dolar = null;
 
     public $clientes = [];
     public $fornecedores = [];
@@ -26,6 +28,7 @@ class PedidoMaker extends Component
     {
         $this->clientes = Cliente::get();
         $this->fornecedores = Fornecedor::get();
+        $this->cotacao_dolar = DolarAPI::getCotacaoDolarMegaEletronicos();
     }
 
     public function updated($name, $value)
@@ -48,6 +51,7 @@ class PedidoMaker extends Component
             'cliente_id' => $this->cliente_id,
             'fornecedor_id' => $this->fornecedor_id,
             'status' => $this->status,
+            'cotacao_dolar' => $this->cotacao_dolar,
         ];
         $pedido = Pedido::create($data);
 

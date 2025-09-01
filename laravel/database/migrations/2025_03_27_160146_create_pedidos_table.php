@@ -14,6 +14,7 @@ return new class extends Migration
             $table->foreignId('fornecedor_id')->nullable()->constrained('fornecedores')->onDelete('set null');
             $table->enum('status', ['pendente', 'em andamento', 'finalizado', 'cancelado'])->default('pendente');
             $table->text('observacao')->nullable();
+            $table->decimal('cotacao_dolar', 10, 2);
             $table->timestamps();
             $table->softDeletes();
         });
