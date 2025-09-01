@@ -13,6 +13,8 @@ return new class extends Migration
             $table->string('nome');
             $table->string('endereco');
             $table->string('telefone');
+            $table->decimal('porcentagem_frete', 10, 2);
+            $table->decimal('porcentagem_lucro', 10, 2);
             $table->timestamps();
         });
     }

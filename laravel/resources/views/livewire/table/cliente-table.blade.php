@@ -36,6 +36,14 @@
                                     'name' => 'endereco',
                                     'displayName' => 'Endereço'
                                 ])
+                                @include('livewire.includes.table-sortable-th',[
+                                    'name' => 'porcentagem_frete',
+                                    'displayName' => 'Porc. Frete'
+                                ])
+                                @include('livewire.includes.table-sortable-th',[
+                                    'name' => 'porcentagem_lucro',
+                                    'displayName' => 'Porc. Lucro'
+                                ])
                                 <th scope="col" class="px-4 py-3">
                                     <span class="sr-only">Ações</span>
                                 </th>
@@ -59,6 +67,9 @@
                                             {{ $cliente->endereco }}
                                         </a>
                                     </td>
+                                    <td class="px-4 py-3">{{ $cliente->porcentagem_frete }}%</td>
+                                    <td class="px-4 py-3">{{ $cliente->porcentagem_lucro }}%</td>
+
                                     <td class="px-4 py-3 flex items-center justify-end">
                                         <flux:button x-on:click="$dispatch('editar-cliente', {cliente_id: {{$cliente->id }}})" variant="primary" class="cursor-pointer mr-1">Editar</flux:button>
                                         <flux:modal.trigger name="deletar-cliente-{{$cliente->id}}">

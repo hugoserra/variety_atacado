@@ -10,7 +10,6 @@ class FornecedorMaker extends Component
 {
     public $nome;
     public $telefone;
-    public $porcentagem;
 
     #[On('novo-fornecedor')]
     public function maker_show()
@@ -23,7 +22,6 @@ class FornecedorMaker extends Component
         $validated = $this->validate([
             'nome' => 'required',
             'telefone' => 'required|min:3',
-            'porcentagem' => 'required',
         ]);
         Fornecedor::create($validated);
         $this->dispatch('fornecedor-saved');

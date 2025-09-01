@@ -11,7 +11,6 @@ class FornecedorEditer extends Component
     public $id;
     public $nome;
     public $telefone;
-    public $porcentagem;
 
     #[On('editar-fornecedor')]
     public function editer_show($fornecedor_id)
@@ -26,7 +25,6 @@ class FornecedorEditer extends Component
         $validated = $this->validate([
             'nome' => 'required',
             'telefone' => 'required|min:3',
-            'porcentagem' => 'required',
         ]);
         Fornecedor::findOrFail($this->id)->update($validated);
         $this->dispatch('fornecedor-saved');

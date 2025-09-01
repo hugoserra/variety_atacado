@@ -14,7 +14,6 @@ class Fornecedor extends Model
     public function scopeSearch($query, $value)
     {
         $query->where('nome', 'like', "%{$value}%")
-            ->orWhere('telefone', 'like', "%{$value}%")
-            ->orWhere('porcentagem', 'like', "%{$value}%");
+            ->orWhere('telefone', 'like', "%{$value}%");
     }
 }

@@ -12,7 +12,6 @@ return new class extends Migration
             $table->id();
             $table->string('nome');
             $table->string('telefone');
-            $table->float('porcentagem');
             $table->timestamps();
         });
     }

@@ -8,7 +8,6 @@
 
         <flux:input wire:model="nome" label="Nome" />
         <flux:input wire:model="telefone" label="Telefone" mask="(99) 99999-9999"/>
-        <flux:input wire:model="porcentagem" label="Porcentagem" />
 
         <div class="flex">
             <flux:spacer />

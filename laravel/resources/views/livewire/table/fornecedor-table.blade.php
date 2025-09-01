@@ -32,10 +32,6 @@
                                     'name' => 'telefone',
                                     'displayName' => 'Telefone'
                                 ])
-                                @include('livewire.includes.table-sortable-th',[
-                                    'name' => 'porcentagem',
-                                    'displayName' => 'Porcentagem'
-                                ])
                                 <th scope="col" class="px-4 py-3">
                                     <span class="sr-only">Ações</span>
                                 </th>
@@ -52,11 +48,6 @@
                                     <td class="px-4 py-3">
                                         <a target="_blank" href="https://web.whatsapp.com/send?autoload=1&app_absent=0&phone={{$fornecedor->telefone}}&text">
                                             {{ $fornecedor->telefone }}
-                                        </a>
-                                    </td>
-                                    <td class="px-4 py-3">
-                                        <a target="_blank" href="https://www.google.com.br/maps/place/{{$fornecedor->endereco}}">
-                                            {{ $fornecedor->porcentagem }}
                                         </a>
                                     </td>
                                     <td class="px-4 py-3 flex items-center justify-end">

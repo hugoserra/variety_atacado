@@ -12,6 +12,8 @@ class ClienteMaker extends Component
     public $nome;
     public $telefone;
     public $endereco;
+    public $porcentagem_frete = 0;
+    public $porcentagem_lucro = 0;
 
     #[On('novo-cliente')]
     public function maker_show()
@@ -25,6 +27,8 @@ class ClienteMaker extends Component
             'nome' => 'required|min:3',
             'telefone' => 'required|min:3',
             'endereco' => 'required|min:3',
+            'porcentagem_frete' => 'required|numeric|min:0|max:100',
+            'porcentagem_lucro' => 'required|numeric|min:0|max:100',
         ]);
         Cliente::create($validated);
         $this->dispatch('cliente-saved');
