@@ -20,6 +20,8 @@ class PedidoEditer extends Component
     public $status = 'pendente';
     public $cotacao_dolar = null;
     public $observacao = null;
+    public bool $pagamento_fornecedor = false;
+    public bool $pagamento_cliente = false;
 
     public $clientes = [];
     public $fornecedores = [];
@@ -140,6 +142,24 @@ class PedidoEditer extends Component
 
         $pedido->save();
         $this->dispatch('updated-popup', 'Observação Salva!');
+        $this->dispatch('pedido-saved');
+    }
+
+    public function set_pagamento_fornecedor($value)
+    {
+        $pedido = Pedido::findOrFail($this->id);
+        $pedido->pagamento_fornecedor = $value;
+        $pedido->save();
+        $this->dispatch('updated-popup', 'Pagamento do Fornecedor Atualizado!');
+        $this->dispatch('pedido-saved');
+    }
+
+    public function set_pagamento_cliente($value)
+    {
+        $pedido = Pedido::findOrFail($this->id);
+        $pedido->pagamento_cliente = $value;
+        $pedido->save();
+        $this->dispatch('updated-popup', 'Pagamento do Cliente Atualizado!');
         $this->dispatch('pedido-saved');
     }
 

@@ -15,6 +15,8 @@ return new class extends Migration
             $table->enum('status', ['pendente', 'em andamento', 'finalizado', 'cancelado'])->default('pendente');
             $table->text('observacao')->nullable();
             $table->decimal('cotacao_dolar', 10, 2);
+            $table->boolean('pagamento_fornecedor')->default(false);
+            $table->boolean('pagamento_cliente')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

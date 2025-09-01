@@ -7,33 +7,43 @@
         </div>
 
         <div class="flex items-start gap-x-4 mt-4 mb-6">
-            <div class="flex items-center gap-x-1 w-full max-w-[300px]">
-                <div class="w-full">
-                    <flux:select wire:model="fornecedor_id" label="Fornecedor">
-                        <flux:select.option value="null">Nenhum</flux:select.option>
-                        @foreach ($fornecedores as $fornecedor)
-                            @if($fornecedor['id'] == $fornecedor_id)
-                                <flux:select.option selected value="{{$fornecedor['id']}}">{{$fornecedor['nome']}}</flux:select.option>
-                            @else
-                                <flux:select.option value="{{$fornecedor['id']}}">{{$fornecedor['nome']}}</flux:select.option>
-                            @endif
-                        @endforeach
-                    </flux:select>
+
+            <div class="flex flex-col gap-y-2 w-full max-w-[300px]">
+                <div class="flex items-center gap-x-1">
+                    <div class="w-full">
+                        <flux:select wire:model="fornecedor_id" label="Fornecedor">
+                            <flux:select.option value="null">Nenhum</flux:select.option>
+                            @foreach ($fornecedores as $fornecedor)
+                                @if($fornecedor['id'] == $fornecedor_id)
+                                    <flux:select.option selected value="{{$fornecedor['id']}}">{{$fornecedor['nome']}}</flux:select.option>
+                                @else
+                                    <flux:select.option value="{{$fornecedor['id']}}">{{$fornecedor['nome']}}</flux:select.option>
+                                @endif
+                            @endforeach
+                        </flux:select>
+                    </div>
+                    <flux:button x-on:click="$dispatch('novo-fornecedor');" class="mt-6 cursor-pointer">+</flux:button>
                 </div>
-                <flux:button x-on:click="$dispatch('novo-fornecedor');" class="mt-6 cursor-pointer">+</flux:button>
+                <flux:checkbox wire:model="pagamento_fornecedor" label="Pago" x-on:change="$wire.set_pagamento_fornecedor($el.checked)"/>
             </div>
-            <div class="flex items-center gap-x-1 max-w-[300px]">
-                <flux:select wire:model="cliente_id" label="Cliente">
-                    <flux:select.option value="null">Nenhum</flux:select.option>
-                    @foreach ($clientes as $cliente)
-                        @if($cliente['id'] == $cliente_id)
-                            <flux:select.option selected value="{{$cliente['id']}}">{{$cliente['nome']}} - {{$cliente['telefone']}} - {{$cliente['endereco']}} </flux:select.option>
-                        @else
-                            <flux:select.option value="{{$cliente['id']}}">{{$cliente['nome']}} - {{$cliente['telefone']}} - {{$cliente['endereco']}} </flux:select.option>
-                        @endif
-                    @endforeach
-                </flux:select>
-                <flux:button x-on:click="$dispatch('novo-cliente');" class="mt-6 cursor-pointer">+</flux:button>
+
+            <div class="flex flex-col gap-y-2 w-full max-w-[300px]">
+                <div class="flex items-center gap-x-1">
+                    <div class="w-full">
+                        <flux:select wire:model="cliente_id" label="Cliente">
+                            <flux:select.option value="null">Nenhum</flux:select.option>
+                            @foreach ($clientes as $cliente)
+                                @if($cliente['id'] == $cliente_id)
+                                    <flux:select.option selected value="{{$cliente['id']}}">{{$cliente['nome']}}</flux:select.option>
+                                @else
+                                    <flux:select.option value="{{$cliente['id']}}">{{$cliente['nome']}}</flux:select.option>
+                                @endif
+                            @endforeach
+                        </flux:select>
+                    </div>
+                    <flux:button x-on:click="$dispatch('novo-cliente');" class="mt-6 cursor-pointer">+</flux:button>
+                </div>
+                <flux:checkbox wire:model="pagamento_cliente" label="Pago"  x-on:change="$wire.set_pagamento_cliente($el.checked)"/>
             </div>
 
             <flux:select wire:model="status" label="Status">
