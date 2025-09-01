@@ -59,7 +59,7 @@
                         <flux:button x-on:click="$dispatch('novo-produto');" class="cursor-pointer mt-[25px]">+</flux:button>
                     </div>
                     <flux:input wire:model="quantidade_produto_pedido" type="number" label="Quantidade Pedido" />
-                    <flux:input wire:model="preco_paraguai_dolar_pedido" type="number" label="Preço Paraguai (Dólar)" />
+                    <flux:input wire:model="preco_paraguai_dolar_pedido" type="number" label="Preço Paraguai (USD)" />
                     <flux:button wire:click="vincular_produto_pedido" variant="primary" class="cursor-pointer mt-[25px]">Vincular ao Pedido</flux:button>
                 </div>
                 <flux:separator class="mb-6"/>

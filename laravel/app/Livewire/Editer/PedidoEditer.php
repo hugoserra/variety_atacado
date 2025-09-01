@@ -26,7 +26,7 @@ class PedidoEditer extends Component
     public $produtos;
     
     public $produto_id;
-    public $quantidade_produto_pedido;
+    public $quantidade_produto_pedido = 1;
     public $preco_paraguai_dolar_pedido;
 
     public function mount()
@@ -93,7 +93,7 @@ class PedidoEditer extends Component
         $this->dispatch('produto-saved');
         $this->dispatch('updated-popup', 'Produto Vinculado!');
         $this->dispatch('searchable_select_clear_produto_id');
-        $this->quantidade_produto_pedido = null;
+        $this->quantidade_produto_pedido = 1;
         $this->preco_paraguai_dolar_pedido = null;
     }
 
