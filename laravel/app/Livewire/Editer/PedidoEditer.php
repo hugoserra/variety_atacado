@@ -62,7 +62,6 @@ class PedidoEditer extends Component
             'cliente_id' => $this->cliente_id,
             'fornecedor_id' => $this->fornecedor_id,
             'status' => $this->status,
-            'cotacao_dolar' => $this->cotacao_dolar,
             'observacao' => $this->observacao,
         ];
 
@@ -115,14 +114,23 @@ class PedidoEditer extends Component
     public function salvar_cotacao_dolar()
     {
         $pedido = Pedido::findOrFail($this->id);
+        $old_cotacao_dolar = $pedido->cotacao_dolar;
 
         if(!$this->cotacao_dolar)
             $this->cotacao_dolar = DolarAPI::getCotacaoDolarMegaEletronicos();
 
         $pedido->cotacao_dolar = $this->cotacao_dolar;
-
         $pedido->save();
+
+        $produtos_pedido = PedidoProduto::where('pedido_id', $this->id)->get();
+        foreach($produtos_pedido as $produto_pedido)
+        {
+            $produto_pedido->preco_paraguai = ($produto_pedido->preco_paraguai / $old_cotacao_dolar) * $this->cotacao_dolar;
+            $produto_pedido->save();
+        }
+
         $this->dispatch('updated-popup', 'Cotação do Dólar Salva!');
+        $this->dispatch('produto-saved');
         $this->dispatch('pedido-saved');
     }
 
