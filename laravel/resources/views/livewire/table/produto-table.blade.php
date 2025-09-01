@@ -56,15 +56,19 @@
                                     ])
                                     @include('livewire.includes.table-sortable-th',[
                                         'name' => 'preco_paraguai',
-                                        'displayName' => 'Preco Paraguai'
+                                        'displayName' => 'Preco Paraguai (USD)'
+                                    ])
+                                    @include('livewire.includes.table-sortable-th',[
+                                        'name' => 'preco_paraguai',
+                                        'displayName' => 'Preco Paraguai (R$)'
                                     ])
                                     @include('livewire.includes.table-sortable-th',[
                                         'name' => 'preco_chegada',
-                                        'displayName' => 'Preco de Chegada'
+                                        'displayName' => 'Preco de Chegada (R$)'
                                     ])
                                     @include('livewire.includes.table-sortable-th',[
                                         'name' => 'preco_venda',
-                                        'displayName' => 'Preco de Venda'
+                                        'displayName' => 'Preco de Venda (R$)'
                                     ])
                                 @endif
                                 <th scope="col" class="px-4 py-3">
@@ -76,7 +80,7 @@
                             @foreach ($produtos as $produto)
                                 <tr wire:key="tr-produto-{{ $produto->id }}" class="border-b dark:border-gray-700">
                                     <td>
-                                        <a target="_blank" href="{{$produto->link_compras_paraguai}}" class="px-4 py-3 font-medium text-gray-900 dark:text-white h-[50px] max-h-[50px] overflow-hidden line-clamp-2 break-words w-full min-w-80 max-w-96">{{ $produto->nome }}</a>
+                                        <a target="_blank" href="{{$produto->link_compras_paraguai}}" class="px-4 py-3 font-medium text-gray-900 dark:text-white h-[50px] max-h-[50px] overflow-hidden line-clamp-2 break-words w-full min-w-30 max-w-50">{{ $produto->nome }}</a>
                                     </td>
                                     @if($pedido_id)
                                         <td wire:key="{{time()}}">
@@ -86,6 +90,7 @@
                                     <td class="px-4 py-3">{{ $produto->tipo_frete }}</td>
                                     @if($pedido_id)
                                         <td class="px-4 py-3">{{ $produto->pivot->quantidade_produto }}</td>
+                                        <td class="px-4 py-3">R$ {{ $produto->pivot->preco_paraguai_dolar }}</td>
                                         <td class="px-4 py-3">R$ {{ $produto->pivot->preco_paraguai }}</td>
                                         <td class="px-4 py-3">R$ {{ $produto->pivot->preco_chegada }}</td>
                                         <td class="px-4 py-3">R$ {{ $produto->pivot->preco_venda }}</td>

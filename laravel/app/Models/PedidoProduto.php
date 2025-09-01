@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class PedidoProduto extends Pivot
 {
     protected $table = 'pedido_produto';
-    protected $fillable = ['pedido_id', 'produto_id', 'quantidade_produto', 'preco_paraguai', 'preco_chegada', 'preco_venda', 'observacao'];
+    protected $fillable = ['pedido_id', 'produto_id', 'quantidade_produto', 'preco_paraguai_dolar', 'preco_paraguai', 'preco_chegada', 'preco_venda', 'observacao'];
 
     protected static function boot()
     {
         parent::boot();
         static::saving(function ($pedido_produto) {
             $cliente = $pedido_produto->getCliente();
+            $pedido_produto->calculaPrecoParaguai();
             $pedido_produto->calculaPrecoChegada($cliente);
             $pedido_produto->calculaPrecoVenda($cliente);
         });
@@ -34,6 +35,11 @@ class PedidoProduto extends Pivot
     public function getCliente()
     {
         return $this->pedido->cliente;
+    }
+
+    protected function calculaPrecoParaguai()
+    {
+        $this->preco_paraguai = $this->preco_paraguai_dolar * $this->pedido->cotacao_dolar;
     }
 
     protected function calculaPrecoChegada($cliente)

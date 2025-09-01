@@ -27,7 +27,7 @@ class PedidoEditer extends Component
     
     public $produto_id;
     public $quantidade_produto_pedido;
-    public $preco_paraguai_pedido;
+    public $preco_paraguai_dolar_pedido;
 
     public function mount()
     {
@@ -82,19 +82,19 @@ class PedidoEditer extends Component
         $this->validate([
             'produto_id' => 'required|numeric',
             'quantidade_produto_pedido' => 'required|numeric',
-            'preco_paraguai_pedido' => 'required|numeric',
+            'preco_paraguai_dolar_pedido' => 'required|numeric',
         ]);
         $produto = Produto::findOrFail($this->produto_id);
         $produto->pedidos()->attach($this->id, [
             'quantidade_produto' => $this->quantidade_produto_pedido,
-            'preco_paraguai' => $this->preco_paraguai_pedido * $this->cotacao_dolar,
+            'preco_paraguai_dolar' => $this->preco_paraguai_dolar_pedido,
         ]);
         Pedido::find($this->id)->save();
         $this->dispatch('produto-saved');
         $this->dispatch('updated-popup', 'Produto Vinculado!');
         $this->dispatch('searchable_select_clear_produto_id');
         $this->quantidade_produto_pedido = null;
-        $this->preco_paraguai_pedido = null;
+        $this->preco_paraguai_dolar_pedido = null;
     }
 
     #[On('cliente-saved')]
@@ -114,7 +114,6 @@ class PedidoEditer extends Component
     public function salvar_cotacao_dolar()
     {
         $pedido = Pedido::findOrFail($this->id);
-        $old_cotacao_dolar = $pedido->cotacao_dolar;
 
         if(!$this->cotacao_dolar)
             $this->cotacao_dolar = DolarAPI::getCotacaoDolarMegaEletronicos();
@@ -125,7 +124,6 @@ class PedidoEditer extends Component
         $produtos_pedido = PedidoProduto::where('pedido_id', $this->id)->get();
         foreach($produtos_pedido as $produto_pedido)
         {
-            $produto_pedido->preco_paraguai = ($produto_pedido->preco_paraguai / $old_cotacao_dolar) * $this->cotacao_dolar;
             $produto_pedido->save();
         }
 

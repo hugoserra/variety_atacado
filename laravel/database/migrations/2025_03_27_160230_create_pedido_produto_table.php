@@ -13,6 +13,7 @@ return new class extends Migration
             $table->foreignId('pedido_id')->constrained('pedidos')->onDelete('cascade');
             $table->foreignId('produto_id')->constrained('produtos')->onDelete('cascade');
             $table->integer('quantidade_produto')->default(1);
+            $table->decimal('preco_paraguai_dolar', 10, 2)->nullable();
             $table->decimal('preco_paraguai', 10, 2)->nullable();
             $table->decimal('preco_chegada', 10, 2)->nullable();
             $table->decimal('preco_venda', 10, 2)->nullable();

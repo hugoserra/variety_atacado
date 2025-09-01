@@ -49,6 +49,7 @@ class Pedido extends Model
         return $this->belongsToMany(Produto::class)
             ->using(PedidoProduto::class)
             ->withPivot('quantidade_produto')
+            ->withPivot('preco_paraguai_dolar')
             ->withPivot('preco_paraguai')
             ->withPivot('preco_chegada')
             ->withPivot('preco_venda')

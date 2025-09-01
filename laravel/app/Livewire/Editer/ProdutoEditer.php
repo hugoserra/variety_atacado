@@ -17,7 +17,7 @@ class ProdutoEditer extends Component
 
     public $pedido_id;
     public $quantidade_produto_pedido;
-    public $preco_paraguai_pedido;
+    public $preco_paraguai_dolar_pedido;
 
     public $updated_pivot_campo;
 
@@ -29,13 +29,13 @@ class ProdutoEditer extends Component
         
         $pedido_produto_pivot = PedidoProduto::where('pedido_id', $this->pedido_id)
                                             ->where('produto_id', $produto_id)
-                                            ->select('quantidade_produto', 'preco_paraguai')
+                                            ->select('quantidade_produto', 'preco_paraguai_dolar')
                                             ->first();
 
         if(isset($pedido_produto_pivot))
         {
             $this->quantidade_produto_pedido = $pedido_produto_pivot->quantidade_produto;
-            $this->preco_paraguai_pedido = $pedido_produto_pivot->preco_paraguai;
+            $this->preco_paraguai_dolar_pedido = $pedido_produto_pivot->preco_paraguai_dolar;
         }
 
         $this->modal('editar-produto')->show();
@@ -61,12 +61,12 @@ class ProdutoEditer extends Component
         {
             $this->validate([
                 'quantidade_produto_pedido' => 'required|numeric',
-                'preco_paraguai_pedido' => 'required|numeric',
+                'preco_paraguai_dolar_pedido' => 'required|numeric',
             ]);
 
             $data_to_update = [
                 'quantidade_produto' => $this->quantidade_produto_pedido,
-                'preco_paraguai' => $this->preco_paraguai_pedido,
+                'preco_paraguai_dolar' => $this->preco_paraguai_dolar_pedido,
             ];
 
             $produto->pedidos()->updateExistingPivot($this->pedido_id, $data_to_update);
