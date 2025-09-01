@@ -7,21 +7,6 @@
 
         <div class="flex items-center gap-x-1 w-full max-w-[300px]">
             <div class="w-full">
-                <flux:select wire:model="cliente_id" label="Cliente">
-                    <flux:select.option value="null">Nenhum</flux:select.option>
-                    @foreach ($clientes as $cliente)
-                        @if($cliente['id'] == $cliente_id)
-                            <flux:select.option selected value="{{$cliente['id']}}">{{$cliente['nome']}} - {{$cliente['telefone']}} - {{$cliente['endereco']}} </flux:select.option>
-                        @else
-                            <flux:select.option value="{{$cliente['id']}}">{{$cliente['nome']}} - {{$cliente['telefone']}} - {{$cliente['endereco']}} </flux:select.option>
-                        @endif
-                    @endforeach
-                </flux:select>
-            </div>
-            <flux:button x-on:click="$dispatch('novo-cliente');" class="mt-6 cursor-pointer">+</flux:button>
-        </div>
-        <div class="flex items-center gap-x-1 w-full max-w-[300px]">
-            <div class="w-full">
                 <flux:select wire:model="fornecedor_id" label="Fornecedor">
                     <flux:select.option value="null">Nenhum</flux:select.option>
                     @foreach ($fornecedores as $fornecedor)
@@ -33,9 +18,25 @@
                     @endforeach
                 </flux:select>
             </div>
+            <flux:button x-on:click="$dispatch('novo-fornecedor');" class="mt-6 cursor-pointer">+</flux:button>
+        </div>
+        
+        <div class="flex items-center gap-x-1 w-full max-w-[300px]">
+            <div class="w-full">
+                <flux:select wire:model="cliente_id" label="Cliente">
+                    <flux:select.option value="null">Nenhum</flux:select.option>
+                    @foreach ($clientes as $cliente)
+                        @if($cliente['id'] == $cliente_id)
+                            <flux:select.option selected value="{{$cliente['id']}}">{{$cliente['nome']}}</flux:select.option>
+                        @else
+                            <flux:select.option value="{{$cliente['id']}}">{{$cliente['nome']}}</flux:select.option>
+                        @endif
+                    @endforeach
+                </flux:select>
+            </div>
             <flux:button x-on:click="$dispatch('novo-cliente');" class="mt-6 cursor-pointer">+</flux:button>
         </div>
-
+        
         <flux:select wire:model="status" label="Status">
             <flux:select.option value="pendente">Pendente</flux:select.option>
             <flux:select.option value="em andamento">Em Andamento</flux:select.option>

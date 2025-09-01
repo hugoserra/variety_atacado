@@ -7,6 +7,21 @@
         </div>
 
         <div class="flex items-start gap-x-4 mt-4 mb-6">
+            <div class="flex items-center gap-x-1 w-full max-w-[300px]">
+                <div class="w-full">
+                    <flux:select wire:model="fornecedor_id" label="Fornecedor">
+                        <flux:select.option value="null">Nenhum</flux:select.option>
+                        @foreach ($fornecedores as $fornecedor)
+                            @if($fornecedor['id'] == $fornecedor_id)
+                                <flux:select.option selected value="{{$fornecedor['id']}}">{{$fornecedor['nome']}}</flux:select.option>
+                            @else
+                                <flux:select.option value="{{$fornecedor['id']}}">{{$fornecedor['nome']}}</flux:select.option>
+                            @endif
+                        @endforeach
+                    </flux:select>
+                </div>
+                <flux:button x-on:click="$dispatch('novo-fornecedor');" class="mt-6 cursor-pointer">+</flux:button>
+            </div>
             <div class="flex items-center gap-x-1 max-w-[300px]">
                 <flux:select wire:model="cliente_id" label="Cliente">
                     <flux:select.option value="null">Nenhum</flux:select.option>
@@ -42,6 +57,7 @@
                         <flux:button x-on:click="$dispatch('novo-produto');" class="cursor-pointer mt-[25px]">+</flux:button>
                     </div>
                     <flux:input wire:model="quantidade_produto_pedido" type="number" label="Quantidade Pedido" />
+                    <flux:input wire:model="preco_paraguai_pedido" type="number" label="Preço Paraguai" />
                     <flux:button wire:click="vincular_produto_pedido" variant="primary" class="cursor-pointer mt-[25px]">Vincular ao Pedido</flux:button>
                 </div>
                 <flux:separator class="mb-6"/>

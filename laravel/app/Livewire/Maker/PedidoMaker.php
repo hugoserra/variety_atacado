@@ -5,7 +5,6 @@ namespace App\Livewire\Maker;
 use App\Models\Cliente;
 use App\Models\Fornecedor;
 use App\Models\Pedido;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -68,7 +67,7 @@ class PedidoMaker extends Component
     #[On('fornecedor-saved')]
     public function fornecedor_saved()
     {
-        $this->fornecedores = Cliente::get();
+        $this->fornecedores = Fornecedor::get();
         $this->fornecedor_id = $this->fornecedores->last()['id'];
     }
     

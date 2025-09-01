@@ -80,7 +80,7 @@
                                     </td>
                                     @if($pedido_id)
                                         <td wire:key="{{time()}}">
-                                            <input type="text" class="p-2 text-gray-900 dark:text-white" placeholder="Observação" x-on:input.debounce.800ms="$wire.setObservacaoProdutoPedido({{$produto->id}}, $el.value)" value="{{$produto->getObservacaoPedido($pedido_id)}}">
+                                            <input type="text" class="p-2 text-gray-900 dark:text-white" placeholder="Observação" x-on:blur="$wire.setObservacaoProdutoPedido({{$produto->id}}, $el.value)" value="{{$produto->getObservacaoPedido($pedido_id)}}">
                                         </td>
                                     @endif
                                     <td class="px-4 py-3">{{ $produto->tipo_frete }}</td>

@@ -3,6 +3,7 @@
 namespace App\Livewire\Editer;
 
 use App\Models\Cliente;
+use App\Models\Fornecedor;
 use App\Models\Pedido;
 use App\Models\PedidoProduto;
 use App\Models\Produto;
@@ -14,19 +15,23 @@ class PedidoEditer extends Component
 {
     public $id;
     public $cliente_id = null;
+    public $fornecedor_id = null;
     public $status = 'pendente';
     public $comissao_paga = null;
     public $observacao = null;
 
     public $clientes = [];
+    public $fornecedores = [];
     public $produtos;
     
     public $produto_id;
     public $quantidade_produto_pedido;
+    public $preco_paraguai_pedido;
 
     public function mount()
     {
         $this->clientes = Cliente::get();
+        $this->fornecedores = Fornecedor::get();
         $this->produtos = Produto::get();
     }
 
@@ -54,8 +59,8 @@ class PedidoEditer extends Component
 
         $data = [
             'cliente_id' => $this->cliente_id,
+            'fornecedor_id' => $this->fornecedor_id,
             'status' => $this->status,
-            'comissao_paga' => $this->comissao_paga,
             'observacao' => $this->observacao,
         ];
 
@@ -76,23 +81,33 @@ class PedidoEditer extends Component
         $this->validate([
             'produto_id' => 'required|numeric',
             'quantidade_produto_pedido' => 'required|numeric',
+            'preco_paraguai_pedido' => 'required|numeric',
         ]);
         $produto = Produto::findOrFail($this->produto_id);
         $produto->pedidos()->attach($this->id, [
             'quantidade_produto' => $this->quantidade_produto_pedido,
+            'preco_paraguai' => $this->preco_paraguai_pedido,
         ]);
         Pedido::find($this->id)->save();
         $this->dispatch('produto-saved');
         $this->dispatch('updated-popup', 'Produto Vinculado!');
         $this->dispatch('searchable_select_clear_produto_id');
         $this->quantidade_produto_pedido = null;
+        $this->preco_paraguai_pedido = null;
     }
 
     #[On('cliente-saved')]
     public function cliente_saved()
     {
-        $this->clientes = Auth::user()->clientes;
+        $this->clientes = Cliente::get();
         $this->cliente_id = $this->clientes->last()['id'];
+    }
+
+    #[On('fornecedor-saved')]
+    public function fornecedor_saved()
+    {
+        $this->fornecedores = Fornecedor::get();
+        $this->fornecedor_id = $this->fornecedores->last()['id'];
     }
 
     public function render()
