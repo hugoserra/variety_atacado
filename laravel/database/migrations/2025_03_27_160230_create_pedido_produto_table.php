@@ -17,6 +17,8 @@ return new class extends Migration
             $table->decimal('preco_paraguai', 10, 2)->nullable();
             $table->decimal('preco_chegada', 10, 2)->nullable();
             $table->decimal('preco_venda', 10, 2)->nullable();
+            $table->decimal('porcentagem_frete', 10, 2);
+            $table->decimal('porcentagem_lucro', 10, 2);
             $table->string('observacao')->nullable();
             $table->timestamps();
         });

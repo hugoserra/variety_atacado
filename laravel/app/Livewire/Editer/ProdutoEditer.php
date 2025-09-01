@@ -18,8 +18,8 @@ class ProdutoEditer extends Component
     public $pedido_id;
     public $quantidade_produto_pedido;
     public $preco_paraguai_dolar_pedido;
-
-    public $updated_pivot_campo;
+    public $porcentagem_frete_pedido;
+    public $porcentagem_lucro_pedido;
 
     #[On('editar-produto')]
     public function editer_show($produto_id)
@@ -29,13 +29,15 @@ class ProdutoEditer extends Component
         
         $pedido_produto_pivot = PedidoProduto::where('pedido_id', $this->pedido_id)
                                             ->where('produto_id', $produto_id)
-                                            ->select('quantidade_produto', 'preco_paraguai_dolar')
+                                            ->select('quantidade_produto', 'preco_paraguai_dolar', 'porcentagem_frete', 'porcentagem_lucro')
                                             ->first();
 
         if(isset($pedido_produto_pivot))
         {
             $this->quantidade_produto_pedido = $pedido_produto_pivot->quantidade_produto;
             $this->preco_paraguai_dolar_pedido = $pedido_produto_pivot->preco_paraguai_dolar;
+            $this->porcentagem_frete_pedido = $pedido_produto_pivot->porcentagem_frete;
+            $this->porcentagem_lucro_pedido = $pedido_produto_pivot->porcentagem_lucro;
         }
 
         $this->modal('editar-produto')->show();
@@ -62,13 +64,16 @@ class ProdutoEditer extends Component
             $this->validate([
                 'quantidade_produto_pedido' => 'required|numeric',
                 'preco_paraguai_dolar_pedido' => 'required|numeric',
+                'porcentagem_frete_pedido' => 'required|numeric',
+                'porcentagem_lucro_pedido' => 'required|numeric',
             ]);
 
             $data_to_update = [
                 'quantidade_produto' => $this->quantidade_produto_pedido,
                 'preco_paraguai_dolar' => $this->preco_paraguai_dolar_pedido,
+                'porcentagem_frete' => $this->porcentagem_frete_pedido,
+                'porcentagem_lucro' => $this->porcentagem_lucro_pedido,
             ];
-
             $produto->pedidos()->updateExistingPivot($this->pedido_id, $data_to_update);
             Pedido::find($this->pedido_id)->save();
             $this->dispatch('pedido-saved');

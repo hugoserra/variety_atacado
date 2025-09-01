@@ -15,6 +15,8 @@
             @if($pedido_id)
                 <flux:input wire:model="quantidade_produto_pedido" type="number" label="Quantidade Pedido"/>
                 <flux:input wire:model="preco_paraguai_dolar_pedido" type="number" label="Preço Paraguai (USD)"/>
+                <flux:input wire:model="porcentagem_frete_pedido" type="number" label="Porc. Frete"/>
+                <flux:input wire:model="porcentagem_lucro_pedido" type="number" label="Porc. Lucro"/>
             @endif
         </div>
 

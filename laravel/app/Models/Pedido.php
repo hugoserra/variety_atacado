@@ -53,6 +53,8 @@ class Pedido extends Model
             ->withPivot('preco_paraguai')
             ->withPivot('preco_chegada')
             ->withPivot('preco_venda')
+            ->withPivot('porcentagem_frete')
+            ->withPivot('porcentagem_lucro')
             ->withPivot('observacao')
             ->withTimestamps();
     }
