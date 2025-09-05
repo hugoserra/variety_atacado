@@ -75,14 +75,14 @@ class Pedido extends Model
             'cliente_id' => $this->cliente->id,
             'pedido_id' => $this->id,
             'descricao' => "Transação Pedido #{$this->id}: Receber do Cliente R$ {$preco_total_venda}",
-            'valor' => $preco_total_venda,
+            'valor' => -$preco_total_venda,
         ]);
 
         Transacoes::create([
             'fornecedor_id' => $this->fornecedor->id,
             'pedido_id' => $this->id,
             'descricao' => "Transação Pedido #{$this->id}: Pagar ao Fornecedor R$ {$preco_total_chegada}",
-            'valor' => -$preco_total_chegada,
+            'valor' => $preco_total_chegada,
         ]);
 
         $this->update(['preco_total_chegada' => $preco_total_chegada, 'preco_total_venda' => $preco_total_venda, 'lucro' => $preco_total_venda - $preco_total_chegada]);
