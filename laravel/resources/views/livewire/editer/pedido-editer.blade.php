@@ -44,7 +44,7 @@
             </flux:select>
 
             <div class="flex items-center justify-start">
-                <flux:input wire:model="cotacao_dolar" label="Cot. Dólar" x-on:blur="value=$el.value; $el.value=''; $el.value = await $wire.salvar_cotacao_dolar();"/>
+                <flux:input wire:model="cotacao_dolar" label="Cot. Dólar" x-on:blur="$el.value=''; $el.value = await $wire.salvar_cotacao_dolar();"/>
                 <svg wire:loading wire:target="salvar_cotacao_dolar" class="animate-spin h-3 w-3 absolute mt-7 ml-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
