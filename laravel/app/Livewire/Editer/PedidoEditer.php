@@ -130,6 +130,8 @@ class PedidoEditer extends Component
         $this->dispatch('updated-popup', 'Cotação do Dólar Salva!');
         $this->dispatch('produto-saved');
         $this->dispatch('pedido-saved');
+
+        return $pedido->cotacao_dolar;
     }
 
     public function salvar_observacao()

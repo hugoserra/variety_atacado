@@ -39,8 +39,13 @@ class PedidoMaker extends Component
     #[On('novo-pedido')]
     public function maker_show()
     {
-        $this->cotacao_dolar = DolarAPI::getCotacaoDolarMegaEletronicos();
         $this->modal('novo-pedido')->show();
+    }
+
+    public function set_cotacao_dolar()
+    {
+        if($this->cotacao_dolar === null)
+        $this->cotacao_dolar = DolarAPI::getCotacaoDolarMegaEletronicos();
     }
 
     public function criar()

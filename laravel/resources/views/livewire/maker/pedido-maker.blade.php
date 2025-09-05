@@ -38,7 +38,13 @@
                 <flux:button x-on:click="$dispatch('novo-cliente');" class="mt-6 cursor-pointer">+</flux:button>
             </div>
             
-            <flux:input wire:model="cotacao_dolar" label="Cot. Dólar" />
+            <div class="flex items-center justify-start">
+                <flux:input wire:model="cotacao_dolar" label="Cot. Dólar" />
+                <svg wire:loading wire:target="set_cotacao_dolar" class="animate-spin h-3 w-3 absolute mt-7 ml-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                </svg>
+            </div>
             
             <flux:select wire:model="status" label="Status">
                 <flux:select.option value="pendente">Pendente</flux:select.option>
@@ -53,4 +59,14 @@
             <flux:button type="submit" variant="primary" wire:click="criar" class="cursor-pointer">Criar Pedido</flux:button>
         </div>
     </div>
+
+        @script
+            <script>
+            document.addEventListener("novo-pedido", async () => {
+                setTimeout(() => {
+                    $wire.set_cotacao_dolar();
+                }, 200);
+            }, { once: true });
+            </script>
+        @endscript
 </flux:modal>
