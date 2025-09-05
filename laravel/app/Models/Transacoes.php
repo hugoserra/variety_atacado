@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Transacoes extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
     protected $table = 'transacoes';
     protected $guarded = [];
@@ -37,6 +36,16 @@ class Transacoes extends Model
         return $this->belongsTo(Fornecedor::class);
     }
 
+    public function pessoa()
+    {
+        if ($this->cliente_id) {
+            return $this->cliente;
+        } elseif ($this->fornecedor_id) {
+            return $this->fornecedor;
+        }
+        return null;
+    }
+
     public function pedido(): BelongsTo
     {
         return $this->belongsTo(Pedido::class);
@@ -46,6 +55,7 @@ class Transacoes extends Model
     {
         $query->where('descricao', 'like', "%{$value}%")
             ->orWhere('valor', 'like', "%$value%")
+            ->orWhere('created_at', 'like', "%$value%")
             ->orWhereHas('fornecedor', function ($query) use ($value) {
                 $query->where('nome', 'like', "%$value%");
                 $query->orWhere('telefone', 'like', "%$value%");
