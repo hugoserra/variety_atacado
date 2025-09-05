@@ -27,9 +27,9 @@
                     <flux:select.option value="null">Nenhum</flux:select.option>
                     @foreach ($clientes as $cliente)
                         @if($cliente['id'] == $cliente_id)
-                            <flux:select.option selected value="{{$cliente['id']}}">{{$cliente['nome']}} - {{$cliente['telefone']}} - {{$cliente['endereco']}} </flux:select.option>
+                            <flux:select.option selected value="{{$cliente['id']}}">{{$cliente['nome']}} </flux:select.option>
                         @else
-                            <flux:select.option value="{{$cliente['id']}}">{{$cliente['nome']}} - {{$cliente['telefone']}} - {{$cliente['endereco']}} </flux:select.option>
+                            <flux:select.option value="{{$cliente['id']}}">{{$cliente['nome']}}</flux:select.option>
                         @endif
                     @endforeach
                 </flux:select>
