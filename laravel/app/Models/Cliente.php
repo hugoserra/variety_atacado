@@ -26,5 +26,13 @@ class Cliente extends Model
             ->orWhere('endereco', 'like', "%{$value}%");
     }
 
-    
+    public function transacoes(): HasMany
+    {
+        return $this->hasMany(Transacoes::class, 'cliente_id');
+    }
+
+    public function calcularSaldo(): float
+    {
+        return $this->transacoes()->sum('valor');
+    }
 }

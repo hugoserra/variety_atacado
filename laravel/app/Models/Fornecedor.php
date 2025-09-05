@@ -11,6 +11,16 @@ class Fornecedor extends Model
     protected $table = 'fornecedores';
     protected $guarded = [];
 
+    public function transacoes()
+    {
+        return $this->hasMany(Transacoes::class, 'fornecedor_id');
+    }
+
+    public function calcularSaldo(): float
+    {
+        return $this->transacoes()->sum('valor');
+    }
+
     public function scopeSearch($query, $value)
     {
         $query->where('nome', 'like', "%{$value}%")
