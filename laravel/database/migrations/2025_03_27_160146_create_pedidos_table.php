@@ -15,6 +15,9 @@ return new class extends Migration
             $table->enum('status', ['pendente', 'em andamento', 'finalizado', 'cancelado'])->default('pendente');
             $table->text('observacao')->nullable();
             $table->decimal('cotacao_dolar', 10, 2);
+            $table->decimal('preco_total_chegada', 10, 2)->default(0);
+            $table->decimal('preco_total_venda', 10, 2)->default(0);
+            $table->decimal('lucro', 10, 2)->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

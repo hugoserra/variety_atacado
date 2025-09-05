@@ -59,6 +59,34 @@ class Pedido extends Model
             ->withTimestamps();
     }
 
+    public function calcularTransacao()
+    {
+        $preco_total_chegada = 0;
+        $preco_total_venda = 0;
+        
+        foreach ($this->produtos as $produto) {
+            $preco_total_chegada += $produto->pivot->preco_chegada * $produto->pivot->quantidade_produto;
+            $preco_total_venda += $produto->pivot->preco_venda * $produto->pivot->quantidade_produto;
+        }
+
+        Transacoes::where('pedido_id', $this->id)->delete();
+
+        Transacoes::create([
+            'cliente_id' => $this->cliente->id,
+            'pedido_id' => $this->id,
+            'descricao' => "Transação Pedido #{$this->id}: Receber do Cliente R$ {$preco_total_venda}",
+            'valor' => $preco_total_venda,
+        ]);
+
+        Transacoes::create([
+            'fornecedor_id' => $this->fornecedor->id,
+            'pedido_id' => $this->id,
+            'descricao' => "Transação Pedido #{$this->id}: Pagar ao Fornecedor R$ {$preco_total_chegada}",
+            'valor' => -$preco_total_chegada,
+        ]);
+        $this->update(['preco_total_chegada' => $preco_total_chegada, 'preco_total_venda' => $preco_total_venda, 'lucro' => $preco_total_venda - $preco_total_chegada]);
+    }
+
     public function scopeSearch($query, $value)
     {
         $query->where('status', 'like', "%{$value}%")

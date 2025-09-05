@@ -18,7 +18,11 @@ class PedidoProduto extends Pivot
             $pedido_produto->calculaPrecoChegada();
             $pedido_produto->calculaPrecoVenda();
         });
-        static::deleting(function ($pedido_produto) {
+        static::saved(function ($pedido_produto) {
+            $pedido_produto->pedido->calcularTransacao();
+        });
+        static::deleted(function ($pedido_produto) {
+            $pedido_produto->pedido->calcularTransacao();
         });
     }
 
