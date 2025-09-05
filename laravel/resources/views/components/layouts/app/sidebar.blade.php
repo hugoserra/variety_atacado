@@ -16,8 +16,8 @@
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate> Dashboard </flux:navlist.item>
                 </flux:navlist.group>
                 <flux:navlist.group heading="Operacional" class="mt-4">
-                    <flux:navlist.item icon="currency-dollar" :href="route('transacoes')" :current="request()->routeIs('transacoes')" wire:navigate> Transações </flux:navlist.item>
                     <flux:navlist.item icon="chat-bubble-oval-left" :href="route('pedidos')" :current="request()->routeIs('pedidos')" wire:navigate> Pedidos </flux:navlist.item>
+                    <flux:navlist.item icon="currency-dollar" :href="route('transacoes')" :current="request()->routeIs('transacoes')" wire:navigate> Transações </flux:navlist.item>
                 </flux:navlist.group>
                 <flux:navlist.group heading="Cadastros" class="mt-4">
                     <flux:navlist.item icon="gift" :href="route('produtos')" :current="request()->routeIs('produtos')" wire:navigate> Produtos </flux:navlist.item>

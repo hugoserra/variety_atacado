@@ -1,5 +1,10 @@
-<div class="w-full">
-    <canvas id="saldoChart" class="w-full h-96"></canvas>
+<div>
+    <div class="flex justify-end mb-3">
+        <flux:button x-on:click="$wire.redirect_transacoes()" variant="primary" class="cursor-pointer">Ver Transações</flux:button>
+    </div>
+    <div class="w-full">
+        <canvas id="saldoChart" class="w-full h-96"></canvas>
+    </div>
 </div>
 
 @php

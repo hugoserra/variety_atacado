@@ -17,6 +17,11 @@ class TransacaoCfGraph extends Component
         $this->fornecedores = Fornecedor::get();    
     }
 
+    public function redirect_transacoes()
+    {
+        $this->redirect(route('transacoes'), true);
+    }
+
     public function render()
     {
         return view('livewire.graph.transacao-cf-graph');
