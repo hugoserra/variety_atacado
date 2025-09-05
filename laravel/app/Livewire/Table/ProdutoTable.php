@@ -63,6 +63,7 @@ class ProdutoTable extends Component
         $produto = Produto::findOrFail($produto_id);
         $produto->pedidos()->detach($this->pedido_id);
         $this->dispatch('updated-popup', 'Produto Desvinculado!');
+        $this->dispatch('produto-saved');
     }
 
     public function setObservacaoProdutoPedido($produto_id, $obs)

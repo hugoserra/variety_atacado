@@ -17,7 +17,7 @@ class Pedido extends Model
     use SoftDeletes;
 
     protected $table = 'pedidos';
-    protected $fillable = ['produto_id', 'status', 'produtos', 'quantidade_produto', 'observacao', 'cliente_id', 'fornecedor_id', 'cotacao_dolar'];
+    protected $guarded = [];
 
     protected static function boot()
     {
@@ -65,8 +65,8 @@ class Pedido extends Model
         $preco_total_venda = 0;
         
         foreach ($this->produtos as $produto) {
-            $preco_total_chegada += $produto->pivot->preco_chegada * $produto->pivot->quantidade_produto;
-            $preco_total_venda += $produto->pivot->preco_venda * $produto->pivot->quantidade_produto;
+            $preco_total_chegada += $produto->pivot->preco_chegada;
+            $preco_total_venda += $produto->pivot->preco_venda;
         }
 
         Transacoes::where('pedido_id', $this->id)->delete();
@@ -84,6 +84,7 @@ class Pedido extends Model
             'descricao' => "Transação Pedido #{$this->id}: Pagar ao Fornecedor R$ {$preco_total_chegada}",
             'valor' => -$preco_total_chegada,
         ]);
+
         $this->update(['preco_total_chegada' => $preco_total_chegada, 'preco_total_venda' => $preco_total_venda, 'lucro' => $preco_total_venda - $preco_total_chegada]);
     }
 

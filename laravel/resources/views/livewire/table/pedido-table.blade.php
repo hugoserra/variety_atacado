@@ -54,6 +54,14 @@
                                     'displayName' => 'Status'
                                 ])
                                 @include('livewire.includes.table-sortable-th',[
+                                    'name' => 'preco_total_chegada',
+                                    'displayName' => 'Preço Chegada (R$)'
+                                ])
+                                @include('livewire.includes.table-sortable-th',[
+                                    'name' => 'preco_total_venda',
+                                    'displayName' => 'Preço Venda (R$)'
+                                ])
+                                @include('livewire.includes.table-sortable-th',[
                                     'name' => 'created_at',
                                     'displayName' => 'Data Criação'
                                 ])
@@ -73,6 +81,8 @@
                                     <td class="px-4 py-3">{{ $pedido->fornecedor->nome }}</td>
                                     <td class="px-4 py-3">{{ $pedido->cliente->nome }}</td>
                                     <td class="px-4 py-3">{{ $pedido->status }}</td>
+                                    <td class="px-4 py-3">R$ {{ $pedido->preco_total_chegada }}</td>
+                                    <td class="px-4 py-3">R$ {{ $pedido->preco_total_venda }}</td>
                                     <td class="px-4 py-3">{{ $pedido->created_at->format('d/m H:i') }}</td>
                                     <td class="px-4 py-3">{{ $pedido->updated_at->format('d/m H:i') }}</td>
                                     <td class="px-4 py-3 flex items-center justify-end">
