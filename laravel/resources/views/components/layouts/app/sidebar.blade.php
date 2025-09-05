@@ -20,6 +20,7 @@
                     <flux:navlist.item icon="gift" :href="route('produtos')" :current="request()->routeIs('produtos')" wire:navigate> Produtos </flux:navlist.item>
                     <flux:navlist.item icon="users" :href="route('clientes')" :current="request()->routeIs('clientes')" wire:navigate> Clientes </flux:navlist.item>
                     <flux:navlist.item icon="user-plus" :href="route('fornecedores')" :current="request()->routeIs('fornecedores')" wire:navigate> Fornecedores </flux:navlist.item>
+                    <flux:navlist.item icon="currency-dollar" :href="route('transacoes')" :current="request()->routeIs('transacoes')" wire:navigate> Transações </flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 

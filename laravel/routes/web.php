@@ -13,6 +13,7 @@ Route::middleware(['auth'])->group(function ()
     Route::view('produtos', 'screens.produtos')->name('produtos');
     Route::view('clientes', 'screens.clientes')->name('clientes');
     Route::view('fornecedores', 'screens.fornecedores')->name('fornecedores');
+    Route::view('transacoes', 'screens.transacoes')->name('transacoes');
 
     Route::redirect('settings', 'settings/profile');
     Route::get('settings/profile', Profile::class)->name('settings.profile');
