@@ -28,7 +28,6 @@ class PedidoMaker extends Component
     {
         $this->clientes = Cliente::get();
         $this->fornecedores = Fornecedor::get();
-        $this->cotacao_dolar = DolarAPI::getCotacaoDolarMegaEletronicos();
     }
 
     public function updated($name, $value)
@@ -40,6 +39,7 @@ class PedidoMaker extends Component
     #[On('novo-pedido')]
     public function maker_show()
     {
+        $this->cotacao_dolar = DolarAPI::getCotacaoDolarMegaEletronicos();
         $this->modal('novo-pedido')->show();
     }
 
