@@ -56,7 +56,7 @@
                                     <td class="px-4 py-3">{{ $transacao->pessoa()->nome }}</td>
                                     <td class="px-4 py-3">{{ $transacao->descricao }}</td>
                                     <td class="px-4 py-3" >
-                                        <div class="p-2 rounded @if($transacao->valor > 0) bg-green-100 @else bg-red-100 @endif">
+                                        <div class="p-2 rounded @if($transacao->valor > 0) bg-blue-100 @else bg-red-100 @endif">
                                             {{ $transacao->valor }}
                                         </div>
                                     </td>
