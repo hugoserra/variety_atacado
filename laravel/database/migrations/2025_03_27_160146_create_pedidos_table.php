@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('preco_total_chegada', 10, 2)->default(0);
             $table->decimal('preco_total_venda', 10, 2)->default(0);
             $table->decimal('lucro', 10, 2)->default(0);
+            $table->integer('sort')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });

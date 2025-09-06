@@ -1,4 +1,5 @@
 <div>
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/sort@3.x.x/dist/cdn.min.js"></script>
     <section>
         <div>
             <!-- Start coding here -->
@@ -49,7 +50,7 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody x-sort>
                             @foreach ($transacoes as $transacao)
                                 <tr wire:key="tr-transacao-{{ $transacao->id }}" class="border-b dark:border-gray-700">
                                     <td class="px-4 py-3">#{{ $transacao->id }}</td>
@@ -62,6 +63,7 @@
                                     </td>
                                     <td class="px-4 py-3">{{ $transacao->created_at }}</td>
                                     <td class="px-4 py-3 flex items-center justify-end">
+                                        <flux:button x-sort:item icon="arrows-pointing-in" class="cursor-pointer mr-2"></flux:button>
                                         <flux:button x-on:click="$dispatch('editar-transacao', {transacao_id: {{$transacao->id }}})" variant="primary" class="cursor-pointer mr-1">Editar</flux:button>
                                         <flux:modal.trigger name="deletar-transacao-{{$transacao->id}}">
                                             <flux:button variant="danger" class="cursor-pointer">Apagar</flux:button>

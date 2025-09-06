@@ -1,4 +1,5 @@
 <div>
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/sort@3.x.x/dist/cdn.min.js"></script>
     <section>
         <div>
             <!-- Start coding here -->
@@ -91,10 +92,9 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
-                            
+                        <tbody x-sort>
                             @foreach ($pedidos as $pedido)
-                                <tr wire:key="tr-pedido-{{ $pedido->id }}" class="border-b dark:border-gray-700 @if($pedido->status == 'pendente') bg-red-100 dark:bg-red-900 @endif">
+                                <tr wire:key="tr-pedido-{{ $pedido->id }}" class="border-b dark:border-gray-700" >
                                     <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">#{{$pedido->id}}</th>
                                     <td class="px-4 py-3 @if($fornecedor_id && $fornecedor_id != 'todos') underline @endif">{{ $pedido->fornecedor->nome }}</td>
                                     <td class="px-4 py-3 @if($cliente_id && $cliente_id != 'todos') underline @endif">{{ $pedido->cliente->nome }}</td>
@@ -107,6 +107,7 @@
                                         <flux:checkbox.group wire:model.live="pedidos_selecionados">
                                             <flux:checkbox value="{{ $pedido->id }}" class="mr-4" />
                                         </flux:checkbox.group>
+                                        <flux:button x-sort:item icon="arrows-pointing-in" class="cursor-pointer mr-2"></flux:button>
                                         <flux:button x-on:click="$dispatch('editar-pedido', {pedido_id: {{$pedido->id }}})" variant="primary" class="cursor-pointer mr-1">Editar</flux:button>
                                         <flux:modal.trigger name="deletar-pedido-{{$pedido->id}}">
                                             <flux:button variant="danger" class="cursor-pointer">Apagar</flux:button>

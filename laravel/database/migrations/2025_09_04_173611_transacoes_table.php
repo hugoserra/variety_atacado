@@ -15,6 +15,7 @@ return new class extends Migration
             $table->foreignId('pedido_id')->nullable()->constrained('pedidos')->onDelete('cascade');
             $table->string('descricao');
             $table->decimal('valor', 10, 2)->nullable();
+            $table->integer('sort')->default(1);
             $table->timestamps();
         });
     }
