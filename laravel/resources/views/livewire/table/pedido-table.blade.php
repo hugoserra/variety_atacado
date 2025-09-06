@@ -20,17 +20,34 @@
                         </div>
                     </div>
                     <div class="flex space-x-3">
-                        <div class="flex space-x-3 items-center">
-                            <label class="w-40 text-sm font-medium text-gray-900 dark:text-gray-200">Status Pedido:</label>
-                            <select wire:model.live="type"
-                                class="appearance-none w-full ps-3 pe-10 block h-10 py-2 text-base sm:text-sm leading-none rounded-lg shadow-xs border bg-white dark:bg-white/10 dark:disabled:bg-white/[9%] text-zinc-700 dark:text-zinc-300 has-[option.placeholder:checked]:text-zinc-400 dark:has-[option.placeholder:checked]:text-zinc-400 dark:[&>option]:bg-zinc-700 dark:[&>option]:text-white disabled:shadow-none border border-zinc-200 border-b-zinc-300/80 dark:border-white/10">
-                                <option value="">Todos</option>
-                                <option value="pendente">Pendente</option>
-                                <option value="em andamento">Em Andamento</option>
-                                <option value="finalizado">Finalizado</option>
-                                <option value="cancelado">Cancelado</option>
-                            </select>
+                        
+                        <div class="flex space-x-1 w-full">
+                            <flux:select wire:model.live="fornecedor_id" placeholder="Fornecedor" class="w-max">
+                                <flux:select.option value="todos">Todos</flux:select.option>
+                                @foreach ($fornecedores as $fornecedor)
+                                    <flux:select.option value="{{$fornecedor->id}}">{{$fornecedor->nome}}</flux:select.option>
+                                @endforeach
+                            </flux:select>
+                            <flux:button class="cursor-pointer p-4" icon="arrow-down-tray"></flux:button>
                         </div>
+
+                        <div class="flex space-x-1 w-full">
+                            <flux:select wire:model.live="cliente_id" placeholder="Cliente"  class="w-max">
+                                <flux:select.option value="todos">Todos</flux:select.option>
+                                @foreach ($clientes as $cliente)
+                                    <flux:select.option value="{{$cliente->id}}">{{$cliente->nome}}</flux:select.option>
+                                @endforeach
+                            </flux:select>
+                            <flux:button class="cursor-pointer p-4" icon="arrow-down-tray"></flux:button>
+                        </div>
+
+                        <flux:select wire:model.live="status" placeholder="Status Do Pedido">
+                            <flux:select.option value="todos">Todos</flux:select.option>
+                            <flux:select.option value="pendente">Pendente</flux:select.option>
+                            <flux:select.option value="em andamento">Em Andamento</flux:select.option>
+                            <flux:select.option value="finalizado">Finalizado</flux:select.option>
+                            <flux:select.option value="cancelado">Cancelado</flux:select.option>
+                        </flux:select>
                     </div>
                 </div>
                 <div class="overflow-x-auto">
@@ -75,17 +92,19 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <flux:checkbox.group wire:model="pedidos_selecionados">
                             @foreach ($pedidos as $pedido)
                                 <tr wire:key="tr-pedido-{{ $pedido->id }}" class="border-b dark:border-gray-700 @if($pedido->status == 'pendente') bg-red-100 dark:bg-red-900 @endif">
                                     <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">#{{$pedido->id}}</th>
-                                    <td class="px-4 py-3">{{ $pedido->fornecedor->nome }}</td>
-                                    <td class="px-4 py-3">{{ $pedido->cliente->nome }}</td>
-                                    <td class="px-4 py-3">{{ $pedido->status }}</td>
+                                    <td class="px-4 py-3 @if($fornecedor_id && $fornecedor_id != 'todos') underline @endif">{{ $pedido->fornecedor->nome }}</td>
+                                    <td class="px-4 py-3 @if($cliente_id && $cliente_id != 'todos') underline @endif">{{ $pedido->cliente->nome }}</td>
+                                    <td class="px-4 py-3 @if($status && $status != 'todos') underline @endif ">{{ $pedido->status }}</td>
                                     <td class="px-4 py-3">R$ {{ $pedido->preco_total_chegada }}</td>
                                     <td class="px-4 py-3">R$ {{ $pedido->preco_total_venda }}</td>
                                     <td class="px-4 py-3">{{ $pedido->created_at->format('d/m H:i') }}</td>
                                     <td class="px-4 py-3">{{ $pedido->updated_at->format('d/m H:i') }}</td>
                                     <td class="px-4 py-3 flex items-center justify-end">
+                                        <flux:checkbox value="push" class="mr-4" />
                                         <flux:button x-on:click="$dispatch('editar-pedido', {pedido_id: {{$pedido->id }}})" variant="primary" class="cursor-pointer mr-1">Editar</flux:button>
                                         <flux:modal.trigger name="deletar-pedido-{{$pedido->id}}">
                                             <flux:button variant="danger" class="cursor-pointer">Apagar</flux:button>
@@ -107,6 +126,7 @@
                                     </td>
                                 </tr>
                             @endforeach
+                            </flux:checkbox.group>
                         </tbody>
                     </table>
                 </div>

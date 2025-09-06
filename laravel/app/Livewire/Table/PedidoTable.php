@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Table;
 
+use App\Models\Cliente;
+use App\Models\Fornecedor;
 use App\Models\Pedido;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
@@ -17,7 +19,13 @@ class PedidoTable extends Component
     public $search = '';
 
     #[Url(history: true)]
-    public $type = '';
+    public $status = '';
+
+    #[Url(history: true)]
+    public $cliente_id = '';
+
+    #[Url(history: true)]
+    public $fornecedor_id = '';
 
     #[Url(history: true)]
     public $sortBy = 'created_at';
@@ -27,7 +35,16 @@ class PedidoTable extends Component
 
     #[Url()]
     public $perPage = 20;
+    public $pedidos_selecionados = [];
 
+    public $clientes = [];
+    public $fornecedores = [];
+
+    public function mount()
+    {
+        $this->clientes = Cliente::get();
+        $this->fornecedores = Fornecedor::get();
+    }
 
     public function updatedSearch()
     {
@@ -62,8 +79,14 @@ class PedidoTable extends Component
         return view('livewire.table.pedido-table',
         [
             'pedidos' => Pedido::search($this->search)
-                ->when($this->type !== '', function ($query) {
-                    $query->where('status', $this->type);
+                ->when($this->status !== 'todos' && $this->status !== '', function ($query) {
+                    $query->where('status', $this->status);
+                })
+                ->when($this->cliente_id !== 'todos' && $this->cliente_id !== '', function ($query) {
+                    $query->where('cliente_id', $this->cliente_id);
+                })
+                ->when($this->fornecedor_id !== 'todos' && $this->fornecedor_id !== '', function ($query) {
+                    $query->where('fornecedor_id', $this->fornecedor_id);
                 })
                 ->when($this->sortBy != 'clientes.nome' && $this->sortBy != 'fornecedores.nome', function ($query) use ($sortBy, $sortDir) {
                     $query->orderBy($sortBy, $sortDir);
