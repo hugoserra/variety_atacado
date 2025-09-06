@@ -8,5 +8,7 @@
         <livewire:maker.fornecedor-maker />
         <livewire:maker.produto-maker />
         <livewire:editer.produto-editer />
+        <livewire:report.relatorio-cliente />
+        <livewire:report.relatorio-fornecedor />
     </div>
 </x-layouts.app>

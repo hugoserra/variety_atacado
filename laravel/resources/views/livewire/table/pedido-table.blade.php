@@ -28,7 +28,7 @@
                                     <flux:select.option value="{{$fornecedor->id}}">{{$fornecedor->nome}}</flux:select.option>
                                 @endforeach
                             </flux:select>
-                            <flux:button class="cursor-pointer p-4" icon="arrow-down-tray"></flux:button>
+                            <flux:button class="cursor-pointer p-4" icon="arrow-down-tray" wire:click="gerar_relatorio_fornecedor()"></flux:button>
                         </div>
 
                         <div class="flex space-x-1 w-full">
@@ -38,7 +38,7 @@
                                     <flux:select.option value="{{$cliente->id}}">{{$cliente->nome}}</flux:select.option>
                                 @endforeach
                             </flux:select>
-                            <flux:button class="cursor-pointer p-4" icon="arrow-down-tray"></flux:button>
+                            <flux:button class="cursor-pointer p-4" icon="arrow-down-tray" wire:click="gerar_relatorio_cliente()"></flux:button>
                         </div>
 
                         <flux:select wire:model.live="status" placeholder="Status Do Pedido">
@@ -92,7 +92,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <flux:checkbox.group wire:model="pedidos_selecionados">
+                            
                             @foreach ($pedidos as $pedido)
                                 <tr wire:key="tr-pedido-{{ $pedido->id }}" class="border-b dark:border-gray-700 @if($pedido->status == 'pendente') bg-red-100 dark:bg-red-900 @endif">
                                     <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">#{{$pedido->id}}</th>
@@ -104,7 +104,9 @@
                                     <td class="px-4 py-3">{{ $pedido->created_at->format('d/m H:i') }}</td>
                                     <td class="px-4 py-3">{{ $pedido->updated_at->format('d/m H:i') }}</td>
                                     <td class="px-4 py-3 flex items-center justify-end">
-                                        <flux:checkbox value="push" class="mr-4" />
+                                        <flux:checkbox.group wire:model.live="pedidos_selecionados">
+                                            <flux:checkbox value="{{ $pedido->id }}" class="mr-4" />
+                                        </flux:checkbox.group>
                                         <flux:button x-on:click="$dispatch('editar-pedido', {pedido_id: {{$pedido->id }}})" variant="primary" class="cursor-pointer mr-1">Editar</flux:button>
                                         <flux:modal.trigger name="deletar-pedido-{{$pedido->id}}">
                                             <flux:button variant="danger" class="cursor-pointer">Apagar</flux:button>
@@ -126,7 +128,6 @@
                                     </td>
                                 </tr>
                             @endforeach
-                            </flux:checkbox.group>
                         </tbody>
                     </table>
                 </div>

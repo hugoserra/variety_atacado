@@ -58,6 +58,33 @@ class PedidoTable extends Component
         $pedido->delete();
     }
 
+    public function gerar_relatorio_cliente()
+    {
+        if (empty($this->pedidos_selecionados))
+            return $this->dispatch('deleted-popup', 'Escolha pelo menos 1 pedido!', 8000);
+
+        if($this->cliente_id == '' || $this->cliente_id == 'todos')
+        {
+            $this->addError('cliente_id', 'É obrigatório informar Cliente para gerar o relatório!');
+            return;
+        }
+
+        $this->dispatch('gerar-relatorio-cliente', $this->pedidos_selecionados);
+    }
+
+    public function gerar_relatorio_fornecedor()
+    {
+        if (empty($this->pedidos_selecionados))
+            return $this->dispatch('deleted-popup', 'Escolha pelo menos 1 pedido!', 8000);
+
+        if($this->fornecedor_id == '' || $this->fornecedor_id == 'todos')
+        {
+            $this->addError('fornecedor_id', 'É obrigatório informar um Fornecedor para gerar o relatório!');
+            return;
+        }
+        $this->dispatch('gerar-relatorio-fornecedor', $this->pedidos_selecionados);
+    }
+
     public function setSortBy($sortByField)
     {
 
