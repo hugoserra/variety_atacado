@@ -24,6 +24,7 @@ class Pedido extends Model
         parent::boot();
         static::creating(function ($pedido) 
         {
+            self::where('id', "!=", $pedido->id)->increment('sort');
         });
         static::saving(function ($pedido) 
         {

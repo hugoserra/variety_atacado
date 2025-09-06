@@ -16,8 +16,9 @@ class Transacoes extends Model
     protected static function boot()
     {
         parent::boot();
-        static::creating(function ($transacoes) 
+        static::creating(function ($transacao) 
         {
+            self::where('id', "!=", $transacao->id)->increment('sort');
         });
         static::saving(function ($transacoes) 
         {

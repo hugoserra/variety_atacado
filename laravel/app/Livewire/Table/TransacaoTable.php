@@ -16,7 +16,7 @@ class TransacaoTable extends Component
     public $search = '';
 
     #[Url(history: true)]
-    public $sortBy = 'created_at';
+    public $sortBy = '';
 
     #[Url(history: true)]
     public $sortDir = 'DESC';
@@ -33,6 +33,31 @@ class TransacaoTable extends Component
     public function delete(Transacoes $transacao)
     {
         $transacao->delete();
+    }
+
+    public function set_sort($transacao_id, $position)
+    {
+        $transacao = Transacoes::find($transacao_id);
+        if (!$transacao) return;
+
+        $position = max(0, (int)$position);
+        $oldSort = $transacao->sort;
+        
+        if ($position == $oldSort) return;
+
+        if ($position > $oldSort) {
+            // Move para baixo: decrementa os que estão entre oldSort+1 e position
+            Transacoes::where('sort', '>', $oldSort)
+                ->where('sort', '<=', $position)
+                ->decrement('sort');
+        } else {
+            // Move para cima: incrementa os que estão entre position e oldSort-1
+            Transacoes::where('sort', '>=', $position)
+                ->where('sort', '<', $oldSort)
+                ->increment('sort');
+        }
+        $transacao->sort = $position;
+        $transacao->save();
     }
 
     public function setSortBy($sortByField)
@@ -53,7 +78,12 @@ class TransacaoTable extends Component
         return view('livewire.table.transacao-table',
         [
             'transacoes' => Transacoes::search($this->search)
-                ->orderBy($this->sortBy, $this->sortDir)
+                ->when($this->sortBy, function ($query) {
+                    $query->orderBy($this->sortBy, $this->sortDir);
+                })
+                ->when($this->sortBy == '', function ($query) {
+                    $query->orderBy('sort', 'asc')->orderBy('id', 'desc');
+                })
                 ->paginate($this->perPage)
         ]);
     }

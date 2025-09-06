@@ -28,7 +28,7 @@ class PedidoTable extends Component
     public $fornecedor_id = '';
 
     #[Url(history: true)]
-    public $sortBy = 'created_at';
+    public $sortBy = '';
 
     #[Url(history: true)]
     public $sortDir = 'DESC';
@@ -85,6 +85,31 @@ class PedidoTable extends Component
         $this->dispatch('gerar-relatorio-fornecedor', $this->pedidos_selecionados);
     }
 
+    public function set_sort($pedido_id, $position)
+    {
+        $pedido = Pedido::find($pedido_id);
+        if (!$pedido) return;
+
+        $position = max(0, (int)$position);
+        $oldSort = $pedido->sort;
+
+        if ($position == $oldSort) return;
+
+        if ($position > $oldSort) {
+            // Move para baixo: decrementa os que estão entre oldSort+1 e position
+            Pedido::where('sort', '>', $oldSort)
+                ->where('sort', '<=', $position)
+                ->decrement('sort');
+        } else {
+            // Move para cima: incrementa os que estão entre position e oldSort-1
+            Pedido::where('sort', '>=', $position)
+                ->where('sort', '<', $oldSort)
+                ->increment('sort');
+        }
+        $pedido->sort = $position;
+        $pedido->save();
+    }
+
     public function setSortBy($sortByField)
     {
 
@@ -115,7 +140,7 @@ class PedidoTable extends Component
                 ->when($this->fornecedor_id !== 'todos' && $this->fornecedor_id !== '', function ($query) {
                     $query->where('fornecedor_id', $this->fornecedor_id);
                 })
-                ->when($this->sortBy != 'clientes.nome' && $this->sortBy != 'fornecedores.nome', function ($query) use ($sortBy, $sortDir) {
+                ->when($this->sortBy != 'clientes.nome' && $this->sortBy != 'fornecedores.nome' && $this->sortBy != '', function ($query) use ($sortBy, $sortDir) {
                     $query->orderBy($sortBy, $sortDir);
                 })
                 ->when($this->sortBy == 'clientes.nome', function ($query) use ($sortDir) {
@@ -127,6 +152,9 @@ class PedidoTable extends Component
                     $query->join('fornecedores', 'fornecedores.id', '=', 'pedidos.fornecedor_id')
                         ->select('pedidos.*') // garante que apenas os campos de pedidos sejam selecionados
                         ->orderBy('fornecedores.nome', $sortDir);
+                })
+                ->when($this->sortBy == '', function ($query){
+                    $query->orderBy('sort', 'asc')->orderBy('id', 'desc');
                 })
                 ->paginate($this->perPage)
         ]);
