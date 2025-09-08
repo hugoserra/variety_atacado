@@ -3,6 +3,7 @@
 namespace App\Livewire\Table;
 
 use App\Models\Transacoes;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -83,6 +84,9 @@ class TransacaoTable extends Component
                 })
                 ->when($this->sortBy == '', function ($query) {
                     $query->orderBy('sort', 'asc')->orderBy('id', 'desc');
+                })
+                ->when(Auth::user()['role'] == 'user', function ($query) {
+                    $query->where('user_id', Auth::user()['id']);
                 })
                 ->paginate($this->perPage)
         ]);

@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Transacoes extends Model
 {
@@ -19,12 +20,18 @@ class Transacoes extends Model
         static::creating(function ($transacao) 
         {
             self::where('id', "!=", $transacao->id)->increment('sort');
+            $transacao->user_id = Auth::user()->id;
         });
         static::saving(function ($transacoes) 
         {
         });
         static::deleting(function ($transacoes) {
         });
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function cliente(): BelongsTo

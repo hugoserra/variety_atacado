@@ -5,6 +5,7 @@ namespace App\Livewire\Editer;
 use App\Models\Cliente;
 use App\Models\Fornecedor;
 use App\Models\Transacoes;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -22,8 +23,19 @@ class TransacaoEditer extends Component
 
     public function mount()
     {
-        $this->clientes = Cliente::get();
-        $this->fornecedores = Fornecedor::get();
+        if (Auth::user()->role == 'admin') {
+            $this->clientes = Cliente::get();
+            $this->fornecedores = Fornecedor::get();
+        } else {
+            $cliente = Cliente::where('nome', Auth::user()->name)->first();
+            $fornecedor = Fornecedor::where('nome', Auth::user()->name)->first();
+            if ($cliente)
+                $this->clientes = [$cliente];
+            if ($fornecedor)
+                $this->fornecedores = [$fornecedor];
+            $this->cliente_id = $cliente ? $cliente->id : null;
+            $this->fornecedor_id = $fornecedor ? $fornecedor->id : null;
+        }
     }
     
     #[On('editar-transacao')]

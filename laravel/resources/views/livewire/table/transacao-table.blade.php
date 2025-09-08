@@ -31,6 +31,10 @@
                                 ])
                                 @include('livewire.includes.table-sortable-th',[
                                     'name' => '',
+                                    'displayName' => 'Criador'
+                                ])
+                                @include('livewire.includes.table-sortable-th',[
+                                    'name' => '',
                                     'displayName' => 'Pessoa'
                                 ])
                                 @include('livewire.includes.table-sortable-th',[
@@ -54,6 +58,7 @@
                             @foreach ($transacoes as $transacao)
                                 <tr x-sort:item="{{$transacao->id}}" wire:key="tr-transacao-{{ $transacao->id }}" class="border-b dark:border-gray-700">
                                     <td class="px-4 py-3">#{{ $transacao->id }}</td>
+                                    <td class="px-4 py-3">{{ $transacao->user->name }}</td>
                                     <td class="px-4 py-3">{{ $transacao->pessoa()->nome }}</td>
                                     <td class="px-4 py-3">{{ $transacao->descricao }}</td>
                                     <td class="px-4 py-3" >
