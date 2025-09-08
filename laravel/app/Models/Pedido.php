@@ -26,8 +26,10 @@ class Pedido extends Model
         {
             self::where('id', "!=", $pedido->id)->increment('sort');
         });
-        static::saving(function ($pedido) 
+        static::saved(function ($pedido) 
         {
+            if($pedido->isDirty('tipo_frete'))
+                $pedido->calcularTransacao(false);
         });
         static::deleting(function ($pedido) {
             if($pedido->status != "finalizado")
@@ -60,7 +62,7 @@ class Pedido extends Model
             ->withTimestamps();
     }
 
-    public function calcularTransacao()
+    public function calcularTransacao($update = true)
     {
         $preco_total_paraguai = 0;
         $preco_total_chegada = 0;
@@ -96,6 +98,7 @@ class Pedido extends Model
                 'valor' => $preco_total_chegada - $preco_total_paraguai,
             ]);
 
+        if($update)
         $this->update(['preco_total_chegada' => $preco_total_chegada, 'preco_total_venda' => $preco_total_venda, 'lucro' => $preco_total_venda - $preco_total_chegada]);
     }
 
