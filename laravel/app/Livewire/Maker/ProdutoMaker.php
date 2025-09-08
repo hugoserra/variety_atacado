@@ -9,7 +9,6 @@ use Livewire\Component;
 class ProdutoMaker extends Component
 {
     public $nome;
-    public $tipo_frete = 'pago pelo freteiro';
     public $pedido_id;
     public $quantidade_produto_pedido;
 
@@ -29,7 +28,6 @@ class ProdutoMaker extends Component
     {
         $validated = $this->validate([
             'nome' => 'required',
-            'tipo_frete' => 'required',
         ]);
         $produto = Produto::create($validated);
 

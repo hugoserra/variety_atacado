@@ -62,10 +62,12 @@ class Pedido extends Model
 
     public function calcularTransacao()
     {
+        $preco_total_paraguai = 0;
         $preco_total_chegada = 0;
         $preco_total_venda = 0;
         
         foreach ($this->produtos as $produto) {
+            $preco_total_paraguai += $produto->pivot->preco_paraguai;
             $preco_total_chegada += $produto->pivot->preco_chegada;
             $preco_total_venda += $produto->pivot->preco_venda;
         }
@@ -79,12 +81,20 @@ class Pedido extends Model
             'valor' => -$preco_total_venda,
         ]);
 
-        Transacoes::create([
-            'fornecedor_id' => $this->fornecedor->id,
-            'pedido_id' => $this->id,
-            'descricao' => "Transação Pedido #{$this->id}: Pagar ao Fornecedor R$ {$preco_total_chegada}",
-            'valor' => $preco_total_chegada,
-        ]);
+        if($this->tipo_frete == 'pago pelo freteiro')
+            Transacoes::create([
+                'fornecedor_id' => $this->fornecedor->id,
+                'pedido_id' => $this->id,
+                'descricao' => "Transação Pedido #{$this->id}: Pagar ao Fornecedor R$ {$preco_total_chegada}",
+                'valor' => $preco_total_chegada,
+            ]);
+        else if($this->tipo_frete == 'pago pelo comprador')
+            Transacoes::create([
+                'fornecedor_id' => $this->fornecedor->id,
+                'pedido_id' => $this->id,
+                'descricao' => "Transação Pedido #{$this->id}: Pagar ao Fornecedor R$ " . $preco_total_chegada - $preco_total_paraguai,
+                'valor' => $preco_total_chegada - $preco_total_paraguai,
+            ]);
 
         $this->update(['preco_total_chegada' => $preco_total_chegada, 'preco_total_venda' => $preco_total_venda, 'lucro' => $preco_total_venda - $preco_total_chegada]);
     }

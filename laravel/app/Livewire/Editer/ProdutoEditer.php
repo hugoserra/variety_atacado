@@ -13,7 +13,6 @@ class ProdutoEditer extends Component
 {
     public $id;
     public $nome;
-    public $tipo_frete;
 
     public $pedido_id;
     public $quantidade_produto_pedido;
@@ -53,7 +52,6 @@ class ProdutoEditer extends Component
     {
         $validated = $this->validate([
             'nome' => 'required',
-            'tipo_frete' => 'required',
         ]);
         
         $produto = Produto::findOrFail($this->id);

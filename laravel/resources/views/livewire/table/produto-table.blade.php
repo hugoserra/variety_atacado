@@ -45,10 +45,6 @@
                                         'displayName' => 'Observações'
                                     ])
                                 @endif
-                                @include('livewire.includes.table-sortable-th',[
-                                    'name' => 'tipo',
-                                    'displayName' => 'Tipo'
-                                ])
                                 @if($pedido_id)
                                     @include('livewire.includes.table-sortable-th',[
                                         'name' => 'quantidade_produto',
@@ -87,7 +83,6 @@
                                             <input type="text" class="p-2 text-gray-900 dark:text-white" placeholder="Observação" x-on:blur="$wire.setObservacaoProdutoPedido({{$produto->id}}, $el.value)" value="{{$produto->pivot->observacao}}">
                                         </td>
                                     @endif
-                                    <td class="px-4 py-3">{{ $produto->tipo_frete }}</td>
                                     @if($pedido_id)
                                         <td class="px-4 py-3">{{ $produto->pivot->quantidade_produto }}</td>
                                         <td class="px-4 py-3">$ {{ $produto->pivot->preco_paraguai_dolar }}</td>
