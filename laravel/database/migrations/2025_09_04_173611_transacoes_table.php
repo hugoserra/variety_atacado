@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('descricao');
             $table->decimal('valor', 10, 2)->nullable();
             $table->integer('sort')->default(0);
+            $table->boolean('verificada')->default(0);
             $table->timestamps();
         });
     }

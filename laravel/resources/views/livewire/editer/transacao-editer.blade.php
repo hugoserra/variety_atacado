@@ -40,6 +40,12 @@
                 <flux:textarea wire:model="descricao" label="Descrição" placeholder="Descrição da transação..." rows="2"/>
             </div>
             <flux:input wire:model="valor" label="Valor (R$)" />
+
+            @if(Auth::user()->role == 'admin')
+                <div class="flex items-center mt-8">
+                    <flux:checkbox wire:model="verificada" label="Verificada" />
+                </div>
+            @endif
         </div>
 
         <div class="flex">

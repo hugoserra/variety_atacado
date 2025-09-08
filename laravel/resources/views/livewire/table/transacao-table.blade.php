@@ -56,7 +56,7 @@
                         </thead>
                         <tbody x-sort="$wire.set_sort($item, $position)">
                             @foreach ($transacoes as $transacao)
-                                <tr x-sort:item="{{$transacao->id}}" wire:key="tr-transacao-{{ $transacao->id }}" class="border-b dark:border-gray-700">
+                                <tr x-sort:item="{{$transacao->id}}" wire:key="tr-transacao-{{ $transacao->id }}" class="border-b dark:border-gray-700 @if($transacao->user->role == 'user' && !$transacao->verificada) bg-red-100 dark:bg-red-900 @endif">
                                     <td class="px-4 py-3">#{{ $transacao->id }}</td>
                                     <td class="px-4 py-3">{{ $transacao->user->name }}</td>
                                     <td class="px-4 py-3">{{ $transacao->pessoa()->nome }}</td>

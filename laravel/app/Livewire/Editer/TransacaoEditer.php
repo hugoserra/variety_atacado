@@ -19,6 +19,7 @@ class TransacaoEditer extends Component
     public $fornecedores = [];
 
     public $descricao;
+    public bool $verificada;
     public $valor = 0;
 
     public function mount()
@@ -52,8 +53,10 @@ class TransacaoEditer extends Component
             'cliente_id' => 'nullable|numeric',
             'fornecedor_id' => 'nullable|numeric',
             'descricao' => 'required',
+            'verificada' => 'nullable',
             'valor' => 'required|numeric',
         ]);
+        
         Transacoes::findOrFail($this->id)->update($validated);
         $this->dispatch('transacao-saved');
         $this->modal('editar-transacao')->close();

@@ -22,8 +22,10 @@ class Transacoes extends Model
             self::where('id', "!=", $transacao->id)->increment('sort');
             $transacao->user_id = Auth::user()->id;
         });
-        static::saving(function ($transacoes) 
+        static::saving(function ($transacao) 
         {
+            if(!$transacao->isDirty('verificada'))
+                $transacao->verificada = 0;
         });
         static::deleting(function ($transacoes) {
         });
