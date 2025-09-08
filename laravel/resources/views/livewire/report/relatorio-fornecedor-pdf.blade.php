@@ -33,7 +33,7 @@
     @endphp
     @foreach ($pedidos as $pedido)
         <div>
-            <h2>Pedido #{{$pedido->id}}: {{isset($pedido->cliente->nome) }} - {{$pedido->created_at->format('d/m/Y')}} </h2>
+            <h2>Pedido #{{$pedido->id}}: {{ $pedido->cliente->nome }} - {{$pedido->created_at->format('d/m/Y')}} </h2>
             <div>
                 <h3>Produtos</h3>
                 <table>

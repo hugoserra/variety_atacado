@@ -50,7 +50,6 @@
 @endphp
 
 <!-- Importa Chart.js via CDN -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     function render_saldos_clientes() {
         var canvas_clientes = document.getElementById('saldos_clientes');
