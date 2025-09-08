@@ -27,20 +27,20 @@
     </style>
 </head>
 <body>
-    <h1>Relatório de Importação</h1>
+    <h1>Relatório de Pedidos - {{ $pedidos[0]->cliente->nome }}</h1>
     @php
         $total_geral = 0;    
     @endphp
     @foreach ($pedidos as $pedido)
         <div>
-            <h2>Pedido #{{$pedido->id}}: {{$pedido->fornecedor->nome}} - {{$pedido->created_at->format('d/m/Y')}} </h2>
+            <h2>Pedido #{{$pedido->id}} - {{$pedido->created_at->format('d/m/Y')}} </h2>
             <div>
                 <h3>Produtos</h3>
                 <table>
                     <thead>
                         <th>Nome</th>
-                        <th>Preço Paraguai</th>
-                        <th>Preço Chegada</th>
+                        <th>Qtd.</th>
+                        <th>Valor</th>
                     </thead>
                     <tbody>
                         @php
@@ -49,11 +49,8 @@
                         @foreach ($pedido->produtos as $produto)
                         <tr>
                             <td>{{$produto->nome}}</td>
-                            <td>{{$produto->pivot->preco_paraguai}}</td>
-                            <td>{{$produto->pivot->preco_chegada}}</td>
-                            @php
-                                $total_a_pagar += $produto->pivot->preco_chegada;
-                            @endphp
+                            <td>{{$produto->pivot->quantidade_produto}}</td>
+                            <td>R$ {{number_format($produto->pivot->preco_venda, 2)}}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -68,15 +65,15 @@
                 <tbody>
                         
                     <tr>
-                        <td>{{$total_a_pagar}}</td>
+                        <td>R$ {{number_format($pedido->preco_total_venda, 2)}}</td>
                         @php
-                            $total_geral += $total_a_pagar;
+                            $total_geral += $pedido->preco_total_venda;
                         @endphp
                     </tr>
                 </tbody>
             </table>
         </div>
     @endforeach
-    <h2>Total Todos Os Pedidos: R$: {{$total_geral}}</h2>
+    <h2>Total Todos Os Pedidos: R$: {{number_format($total_geral, 2)}}</h2>
 </body>
 </html>

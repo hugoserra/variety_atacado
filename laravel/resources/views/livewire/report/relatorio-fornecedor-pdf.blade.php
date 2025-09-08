@@ -27,7 +27,7 @@
     </style>
 </head>
 <body>
-    <h1>Relatório de Pedidos</h1>
+    <h1>Relatório de Pedidos  - {{ $pedidos[0]->fornecedor->nome }}</h1>
     @php
         $ganho_total_geral = 0;    
     @endphp
@@ -36,15 +36,15 @@
             $ganho_total_pedido = 0;    
         @endphp
         <div>
-            <h2>Pedido #{{$pedido->id}}: {{ $pedido->cliente->nome }} - {{$pedido->created_at->format('d/m/Y')}} </h2>
+            <h2>Pedido #{{$pedido->id}} - {{$pedido->created_at->format('d/m/Y')}} </h2>
             <div>
                 <h3>Produtos @if($pedido->tipo_frete == 'pago pelo comprador') Pagos Pelo Comprador @else Pagos Pelo Freteiro @endif</h3>
                 <table>
                     <thead>
                         <th>Nome</th>
                         <th>Qtd.</th>
-                        <th>Preço Paraguai</th>
-                        <th>Preço Chegada</th>
+                        <th>Valor Paraguai</th>
+                        <th>Valor Chegada</th>
                         <th>Ganho</th>
                     </thead>
                     <tbody>
