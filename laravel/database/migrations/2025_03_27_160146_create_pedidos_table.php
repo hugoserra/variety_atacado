@@ -13,6 +13,7 @@ return new class extends Migration
             $table->foreignId('cliente_id')->nullable()->constrained('clientes')->onDelete('set null');
             $table->foreignId('fornecedor_id')->nullable()->constrained('fornecedores')->onDelete('set null');
             $table->enum('status', ['pendente', 'em andamento', 'finalizado', 'cancelado'])->default('pendente');
+            $table->enum('tipo_frete', ['pago pelo freteiro', 'pago pelo comprador'])->default('pago pelo freteiro');
             $table->text('observacao')->nullable();
             $table->decimal('cotacao_dolar', 10, 2);
             $table->decimal('preco_total_chegada', 10, 2)->default(0);

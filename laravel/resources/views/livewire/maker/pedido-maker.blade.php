@@ -46,11 +46,9 @@
                 </svg>
             </div>
             
-            <flux:select wire:model="status" label="Status">
-                <flux:select.option value="pendente">Pendente</flux:select.option>
-                <flux:select.option value="em andamento">Em Andamento</flux:select.option>
-                <flux:select.option value="finalizado">Finalizado</flux:select.option>
-                <flux:select.option value="cancelado">Cancelado</flux:select.option>
+            <flux:select wire:model="tipo_frete" label="Tipo Frete">
+                <flux:select.option value="pago pelo freteiro">Pago Pelo Freteiro</flux:select.option>
+                <flux:select.option value="pago pelo comprador">Pago Pelo Comprador</flux:select.option>
             </flux:select>
         </div>
 

@@ -7,19 +7,17 @@
         </div>
 
         <div class="flex items-start gap-x-4 mt-4 mb-6">
-            <div class="flex items-center gap-x-1 w-full max-w-[300px]">
-                <div class="w-full">
-                    <flux:select wire:model="fornecedor_id" label="Fornecedor">
-                        <flux:select.option value="null">Nenhum</flux:select.option>
-                        @foreach ($fornecedores as $fornecedor)
-                            @if($fornecedor['id'] == $fornecedor_id)
-                                <flux:select.option selected value="{{$fornecedor['id']}}">{{$fornecedor['nome']}}</flux:select.option>
-                            @else
-                                <flux:select.option value="{{$fornecedor['id']}}">{{$fornecedor['nome']}}</flux:select.option>
-                            @endif
-                        @endforeach
-                    </flux:select>
-                </div>
+            <div class="flex items-center gap-x-1 max-w-[300px]">
+                <flux:select wire:model="fornecedor_id" label="Fornecedor">
+                    <flux:select.option value="null">Nenhum</flux:select.option>
+                    @foreach ($fornecedores as $fornecedor)
+                        @if($fornecedor['id'] == $fornecedor_id)
+                            <flux:select.option selected value="{{$fornecedor['id']}}">{{$fornecedor['nome']}}</flux:select.option>
+                        @else
+                            <flux:select.option value="{{$fornecedor['id']}}">{{$fornecedor['nome']}}</flux:select.option>
+                        @endif
+                    @endforeach
+                </flux:select>
                 <flux:button x-on:click="$dispatch('novo-fornecedor');" class="mt-6 cursor-pointer">+</flux:button>
             </div>
             <div class="flex items-center gap-x-1 max-w-[300px]">
@@ -41,6 +39,11 @@
                 <flux:select.option value="em andamento">Em Andamento</flux:select.option>
                 <flux:select.option value="finalizado">Finalizado</flux:select.option>
                 <flux:select.option value="cancelado">Cancelado</flux:select.option>
+            </flux:select>
+
+            <flux:select wire:model="tipo_frete" label="Tipo Frete">
+                <flux:select.option value="pago pelo freteiro">Pago Pelo Freteiro</flux:select.option>
+                <flux:select.option value="pago pelo comprador">Pago Pelo Comprador</flux:select.option>
             </flux:select>
 
             <div class="flex items-center justify-start">

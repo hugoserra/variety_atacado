@@ -17,7 +17,8 @@ class PedidoEditer extends Component
     public $id;
     public $cliente_id = null;
     public $fornecedor_id = null;
-    public $status = 'pendente';
+    public $status = null;
+    public $tipo_frete = null;
     public $cotacao_dolar = null;
     public $observacao = null;
 
@@ -62,6 +63,7 @@ class PedidoEditer extends Component
             'cliente_id' => $this->cliente_id,
             'fornecedor_id' => $this->fornecedor_id,
             'status' => $this->status,
+            'tipo_frete' => $this->tipo_frete,
             'observacao' => $this->observacao,
         ];
 

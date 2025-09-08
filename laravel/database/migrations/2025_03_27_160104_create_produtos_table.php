@@ -11,7 +11,6 @@ return new class extends Migration
         Schema::create('produtos', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
-            $table->enum('tipo_frete', ['pago pelo freteiro', 'pago pelo comprador'])->default('pago pelo freteiro');
             $table->timestamps();
         });
     }

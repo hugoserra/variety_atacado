@@ -17,7 +17,7 @@ class PedidoMaker extends Component
     #[Validate('nullable|numeric')]
     public $fornecedor_id;
     #[Validate('required')]
-    public $status = 'pendente';
+    public $tipo_frete = 'pago pelo comprador';
     public $cotacao_dolar = null;
 
     public $clientes = [];
@@ -55,7 +55,7 @@ class PedidoMaker extends Component
         $data = [
             'cliente_id' => $this->cliente_id,
             'fornecedor_id' => $this->fornecedor_id,
-            'status' => $this->status,
+            'tipo_frete' => $this->tipo_frete,
             'cotacao_dolar' => $this->cotacao_dolar,
         ];
         $pedido = Pedido::create($data);
