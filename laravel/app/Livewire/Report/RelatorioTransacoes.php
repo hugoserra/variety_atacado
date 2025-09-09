@@ -12,7 +12,7 @@ class RelatorioTransacoes extends Component
     #[On('gerar-relatorio-transacoes')]
     public function gerar_relatorio($transacoes_selecionadas)
     {
-        $transacoes = Transacoes::whereIn('id', $transacoes_selecionadas)->get();
+        $transacoes = Transacoes::whereIn('id', $transacoes_selecionadas)->orderBy('created_at', 'ASC')->get();
 
         $pdf = Pdf::loadView('livewire.report.relatorio-transacoes-pdf', ['transacoes' => $transacoes]);
         return response()->streamDownload(function () use ($pdf) {
