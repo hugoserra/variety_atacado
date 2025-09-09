@@ -48,6 +48,26 @@ class ProdutoEditer extends Component
         $this->pedido_id = $pedido_id;
     }
 
+    public function calc_porcentagem_frete_pedido($value)
+    {
+        $value = -$value;
+        $pedido_produto = PedidoProduto::where('pedido_id', $this->pedido_id)
+                                            ->where('produto_id', $this->id)
+                                            ->first();
+
+        $this->porcentagem_frete_pedido = $value / $pedido_produto->preco_paraguai * 100;
+    }
+
+    public function calc_porcentagem_lucro_pedido($value)
+    {
+        $value = -$value;
+        $pedido_produto = PedidoProduto::where('pedido_id', $this->pedido_id)
+            ->where('produto_id', $this->id)
+            ->first();
+
+        $this->porcentagem_lucro_pedido = $value / $pedido_produto->preco_paraguai * 100;
+    }
+
     public function editar()
     {
         $validated = $this->validate([

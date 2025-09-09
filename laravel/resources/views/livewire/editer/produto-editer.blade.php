@@ -10,8 +10,8 @@
             @if($pedido_id)
                 <flux:input wire:model="quantidade_produto_pedido" type="number" label="Quantidade Pedido"/>
                 <flux:input wire:model="preco_paraguai_dolar_pedido" type="number" label="Preço Paraguai (USD)"/>
-                <flux:input wire:model="porcentagem_frete_pedido" type="number" label="Porc. Frete"/>
-                <flux:input wire:model="porcentagem_lucro_pedido" type="number" label="Porc. Lucro"/>
+                <flux:input wire:model="porcentagem_frete_pedido" type="number" label="Porc. Frete" x-on:blur="if($el.value < 0) $wire.calc_porcentagem_frete_pedido($el.value);" />
+                <flux:input wire:model="porcentagem_lucro_pedido" type="number" label="Porc. Lucro" x-on:blur="if($el.value < 0) $wire.calc_porcentagem_lucro_pedido($el.value);"/>
             @endif
         </div>
 
