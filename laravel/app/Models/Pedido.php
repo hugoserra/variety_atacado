@@ -76,27 +76,53 @@ class Pedido extends Model
 
         Transacoes::where('pedido_id', $this->id)->delete();
 
-        Transacoes::create([
-            'cliente_id' => $this->cliente->id,
-            'pedido_id' => $this->id,
-            'descricao' => "Transação Pedido #{$this->id}: Receber do Cliente R$ {$preco_total_venda}",
-            'valor' => -$preco_total_venda,
-        ]);
+        
 
         if($this->tipo_frete == 'pago pelo freteiro')
+        {
+            Transacoes::create([
+                'cliente_id' => $this->cliente->id,
+                'pedido_id' => $this->id,
+                'descricao' => "Transação Pedido #{$this->id}: Receber do Cliente R$ {$preco_total_venda}",
+                'valor' => -$preco_total_venda,
+            ]);
             Transacoes::create([
                 'fornecedor_id' => $this->fornecedor->id,
                 'pedido_id' => $this->id,
                 'descricao' => "Transação Pedido #{$this->id}: Pagar ao Fornecedor R$ {$preco_total_chegada}",
                 'valor' => $preco_total_chegada,
             ]);
+        }
         else if($this->tipo_frete == 'pago pelo comprador')
+        {
+            Transacoes::create([
+                'cliente_id' => $this->cliente->id,
+                'pedido_id' => $this->id,
+                'descricao' => "Transação Pedido #{$this->id}: Receber do Cliente R$ {$preco_total_venda}",
+                'valor' => -$preco_total_venda,
+            ]);
             Transacoes::create([
                 'fornecedor_id' => $this->fornecedor->id,
                 'pedido_id' => $this->id,
                 'descricao' => "Transação Pedido #{$this->id}: Pagar ao Fornecedor R$ " . $preco_total_chegada - $preco_total_paraguai,
                 'valor' => $preco_total_chegada - $preco_total_paraguai,
             ]);
+        }
+        else if($this->tipo_frete == 'pago pelo cliente')
+        {
+            Transacoes::create([
+                'cliente_id' => $this->cliente->id,
+                'pedido_id' => $this->id,
+                'descricao' => "Transação Pedido #{$this->id}: Receber do Cliente R$ {$preco_total_venda}",
+                'valor' => -$preco_total_venda + $preco_total_paraguai,
+            ]);
+            Transacoes::create([
+                'fornecedor_id' => $this->fornecedor->id,
+                'pedido_id' => $this->id,
+                'descricao' => "Transação Pedido #{$this->id}: Pagar ao Fornecedor R$ " . $preco_total_chegada - $preco_total_paraguai,
+                'valor' => $preco_total_chegada - $preco_total_paraguai,
+            ]);
+        }
 
         if($update)
         $this->update(['preco_total_chegada' => $preco_total_chegada, 'preco_total_venda' => $preco_total_venda, 'lucro' => $preco_total_venda - $preco_total_chegada]);

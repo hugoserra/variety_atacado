@@ -44,6 +44,7 @@
             <flux:select wire:model="tipo_frete" label="Tipo Frete">
                 <flux:select.option value="pago pelo freteiro">Pago Pelo Freteiro</flux:select.option>
                 <flux:select.option value="pago pelo comprador">Pago Pelo Comprador</flux:select.option>
+                <flux:select.option value="pago pelo cliente">Pago Pelo Cliente</flux:select.option>
             </flux:select>
 
             <div class="flex items-center justify-start">
