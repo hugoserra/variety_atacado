@@ -50,8 +50,8 @@ class TransacaoMaker extends Component
     public function criar()
     {
         $validated = $this->validate([
-            'cliente_id' => 'nullable|numeric',
-            'fornecedor_id' => 'nullable|numeric',
+            'cliente_id' => 'nullable',
+            'fornecedor_id' => 'nullable',
             'descricao' => 'required',
             'valor' => 'required|numeric',
         ]);
@@ -60,6 +60,13 @@ class TransacaoMaker extends Component
             $this->addError('fornecedor_id', 'É obrigatório informar Cliente ou Fornecedor.');
             return;
         }
+
+        if ($this->cliente_id && $this->fornecedor_id) {
+            $this->addError('cliente_id', 'É obrigatório informar Cliente ou Fornecedor, mas não ambos.');
+            $this->addError('fornecedor_id', 'É obrigatório informar Cliente ou Fornecedor, mas não ambos.');
+            return;
+        }
+
         Transacoes::create($validated);
         $this->dispatch('transacao-saved');
         $this->modal('nova-transacao')->close();

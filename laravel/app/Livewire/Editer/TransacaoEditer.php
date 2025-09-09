@@ -50,12 +50,24 @@ class TransacaoEditer extends Component
     public function editar()
     {
         $validated = $this->validate([
-            'cliente_id' => 'nullable|numeric',
-            'fornecedor_id' => 'nullable|numeric',
+            'cliente_id' => 'nullable',
+            'fornecedor_id' => 'nullable',
             'descricao' => 'required',
             'verificada' => 'nullable',
             'valor' => 'required|numeric',
         ]);
+
+        if (empty($this->cliente_id) && empty($this->fornecedor_id)) {
+            $this->addError('cliente_id', 'É obrigatório informar Cliente ou Fornecedor.');
+            $this->addError('fornecedor_id', 'É obrigatório informar Cliente ou Fornecedor.');
+            return;
+        }
+
+        if ($this->cliente_id && $this->fornecedor_id) {
+            $this->addError('cliente_id', 'É obrigatório informar Cliente ou Fornecedor, mas não ambos.');
+            $this->addError('fornecedor_id', 'É obrigatório informar Cliente ou Fornecedor, mas não ambos.');
+            return;
+        }
         
         Transacoes::findOrFail($this->id)->update($validated);
         $this->dispatch('transacao-saved');

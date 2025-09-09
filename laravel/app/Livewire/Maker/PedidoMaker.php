@@ -12,9 +12,9 @@ use Livewire\Component;
 
 class PedidoMaker extends Component
 {
-    #[Validate('nullable|numeric')]
+    #[Validate('required')]
     public $cliente_id;
-    #[Validate('nullable|numeric')]
+    #[Validate('required')]
     public $fornecedor_id;
     #[Validate('required')]
     public $tipo_frete = 'pago pelo comprador';

@@ -55,6 +55,8 @@ class PedidoEditer extends Component
     public function editar()
     {
         $this->validate([
+            'cliente_id' => 'required',
+            'fornecedor_id' => 'required',
             'status' => 'required',
         ]);
         $pedido = Pedido::findOrFail($this->id);
