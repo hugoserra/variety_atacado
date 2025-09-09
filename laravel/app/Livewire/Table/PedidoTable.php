@@ -51,6 +51,16 @@ class PedidoTable extends Component
         $this->resetPage();
     }
 
+    public function updatedFornecedorId($fornecedor_id)
+    {
+        $this->pedidos_selecionados = [];
+    }
+
+    public function updatedClienteId($cliente_id)
+    {
+        $this->pedidos_selecionados = [];
+    }
+
     public function delete(Pedido $pedido)
     {
         if($pedido->status == 'em andamento')

@@ -20,6 +20,17 @@
                                 label="Search" required="">
                         </div>
                     </div>
+                    <div class="flex space-x-3">
+                        <div class="flex space-x-1 w-full">
+                            <flux:select wire:model.live="pessoa_nome" placeholder="Pessoa" class="w-max">
+                                <flux:select.option value="todos">Todos</flux:select.option>
+                                @foreach ($pessoas as $pessoa)
+                                    <flux:select.option value="{{$pessoa['nome']}}">{{$pessoa['nome']}}</flux:select.option>
+                                @endforeach
+                            </flux:select>
+                            <flux:button class="cursor-pointer p-4" icon="arrow-down-tray" wire:click="gerar_relatorio_transacoes()"></flux:button>
+                        </div>
+                    </div>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -68,6 +79,9 @@
                                     </td>
                                     <td class="px-4 py-3">{{ $transacao->created_at }}</td>
                                     <td class="px-4 py-3 flex items-center justify-end">
+                                        <flux:checkbox.group wire:model.live="transacoes_selecionadas">
+                                            <flux:checkbox value="{{ $transacao->id }}" class="mr-4" />
+                                        </flux:checkbox.group>
                                         <flux:button x-sort:handle icon="arrows-pointing-in" class="cursor-pointer mr-2"></flux:button>
                                         <flux:button x-on:click="$dispatch('editar-transacao', {transacao_id: {{$transacao->id }}})" variant="primary" class="cursor-pointer mr-1">Editar</flux:button>
                                         <flux:modal.trigger name="deletar-transacao-{{$transacao->id}}">

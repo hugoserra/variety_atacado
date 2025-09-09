@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Table;
 
+use App\Models\Cliente;
+use App\Models\Fornecedor;
 use App\Models\Transacoes;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
@@ -24,7 +26,32 @@ class TransacaoTable extends Component
 
     #[Url()]
     public $perPage = 20;
+    public $transacoes_selecionadas = [];
+    public $pessoas = [];
+    public $pessoa_nome = 'todos';
 
+    public function mount()
+    {
+        $this->pessoas = Cliente::get()->concat(Fornecedor::get())->toArray();
+    }
+
+    public function updatedPessoaNome($nome)
+    {
+        $this->transacoes_selecionadas = []; 
+    }
+
+    public function gerar_relatorio_transacoes()
+    {
+        if (empty($this->transacoes_selecionadas))
+            return $this->dispatch('deleted-popup', 'Escolha pelo menos 1 transação!', 8000);
+
+        if ($this->pessoa_nome == '' || $this->pessoa_nome == 'todos') {
+            $this->addError('cliente_id', 'É obrigatório informar a pessoa para gerar o relatório!');
+            return;
+        }
+
+        $this->dispatch('gerar-relatorio-transacoes', $this->transacoes_selecionadas);
+    }
 
     public function updatedSearch()
     {
@@ -84,6 +111,15 @@ class TransacaoTable extends Component
                 })
                 ->when($this->sortBy == '', function ($query) {
                     $query->orderBy('sort', 'asc')->orderBy('id', 'desc');
+                })
+                ->when($this->pessoa_nome != 'todos', function ($query) {
+                    $query->where(function ($q) {
+                        $q->whereHas('cliente', function ($q2) {
+                            $q2->where('nome', $this->pessoa_nome);
+                        })->orWhereHas('fornecedor', function ($q3) {
+                            $q3->where('nome', $this->pessoa_nome);
+                        });
+                    });
                 })
                 ->when(Auth::user()['role'] == 'user', function ($query) {
                     $query->where('user_id', Auth::user()['id']);
