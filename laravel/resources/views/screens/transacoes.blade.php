@@ -4,5 +4,6 @@
         <livewire:maker.transacao-maker />
         <livewire:editer.transacao-editer />
         <livewire:table.transacao-table />
+        <livewire:report.relatorio-transacoes />
     </div>
 </x-layouts.app>

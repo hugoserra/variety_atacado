@@ -28,7 +28,7 @@
                                     <flux:select.option value="{{$pessoa['nome']}}">{{$pessoa['nome']}}</flux:select.option>
                                 @endforeach
                             </flux:select>
-                            <flux:button class="cursor-pointer p-4" icon="arrow-down-tray" wire:click="gerar_relatorio_transacoes()"></flux:button>
+                            <flux:button class="cursor-pointer p-4" icon="arrow-down-tray" wire:click="gerar_relatorio_transacoes"></flux:button>
                         </div>
                     </div>
                 </div>

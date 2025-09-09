@@ -49,7 +49,6 @@ class TransacaoTable extends Component
             $this->addError('cliente_id', 'É obrigatório informar a pessoa para gerar o relatório!');
             return;
         }
-
         $this->dispatch('gerar-relatorio-transacoes', $this->transacoes_selecionadas);
     }
 
